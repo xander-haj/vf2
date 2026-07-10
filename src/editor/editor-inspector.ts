@@ -13,8 +13,8 @@ const ENUMS: Readonly<Record<string, readonly string[]>> = {
   type: ["selector", "sequence", "condition", "action", "cooldown", "repeat"],
 };
 
-/** Narrows canonical JSON before recursive object controls are constructed. */
-function isObject(value: JsonValue): value is JsonObject {
+/** Narrows present canonical JSON before recursive object controls are constructed. */
+function isObject(value: JsonValue | undefined): value is JsonObject {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 

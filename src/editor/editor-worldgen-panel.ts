@@ -10,8 +10,8 @@ import { compileEditorWorldgen } from "./editor-worldgen-compiler";
 import type { EditorViewport } from "./editor-viewport";
 import { verifyEngineWorldgen } from "../engine/worldgen/worldgen-verification";
 
-/** Narrows selected data before world-profile fields are inspected. */
-function isObject(value: JsonValue): value is JsonObject {
+/** Narrows selected or absent indexed data before world-profile fields are inspected. */
+function isObject(value: JsonValue | undefined): value is JsonObject {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 

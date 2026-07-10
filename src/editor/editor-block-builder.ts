@@ -19,11 +19,14 @@ import type { EditorSelection, JsonObject, JsonValue } from "./editor-state";
 import type { EditorViewport } from "./editor-viewport";
 import type { AssetBuilderPick } from "./editor-viewport-builder";
 
+/** BuilderPaletteColor restricts the active paint choice to one of the visible authored palette entries. */
+type BuilderPaletteColor = (typeof BUILDER_COLORS)[number];
+
 /** EditorBlockBuilder retains simple tool choices while all model mutations remain reversible commands. */
 export class EditorBlockBuilder {
   private readonly selectedParts = new Map<string, number>();
   private shapeId = BUILDER_SHAPES[0]?.id ?? "cube";
-  private color = BUILDER_COLORS[0] ?? "#5f8fc2";
+  private color: BuilderPaletteColor = BUILDER_COLORS[0];
   private layer = 0;
 
   /** Removes asset-specific picking when the current selection is not a buildable procedural model. */

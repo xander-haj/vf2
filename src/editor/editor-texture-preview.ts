@@ -20,8 +20,13 @@ function pixelHash(x: number, y: number, salt: number): number {
   return (value ^ (value >>> 16)) >>> 0;
 }
 
-/** Paints material-specific structure over the shared deterministic color noise. */
-function paintPattern(context: CanvasRenderingContext2D, pattern: JsonValue, accent: string, salt: number): void {
+/** Paints an optional material-specific structure over the shared deterministic color noise. */
+function paintPattern(
+  context: CanvasRenderingContext2D,
+  pattern: JsonValue | undefined,
+  accent: string,
+  salt: number,
+): void {
   context.fillStyle = accent;
   context.strokeStyle = accent;
   // Pattern branches intentionally match the runtime atlas so the editor is visually authoritative.
