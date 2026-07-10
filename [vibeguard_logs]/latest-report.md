@@ -1,0 +1,45 @@
+# Vibe Guard Forensic Report
+
+Generated: 2026-07-09T19:43:15.205Z
+Workspace: /Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone
+Status: CLEAN
+
+## Summary
+
+- Projects scanned: 1
+- Dependencies scanned: 75
+- Findings: 0
+- Warnings: 0
+- Critical: 0
+- High: 0
+- Moderate: 0
+- Low: 0
+- Info: 0
+
+## Projects
+
+### npm project in v1 mine-craft clone
+
+- Project ID: v1-mine-craft-clone-npm
+- Ecosystem: npm
+- Manifest: /Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json
+- Lockfile: /Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json
+- Dependencies parsed: 75
+
+## Findings
+
+No security findings were returned for resolved dependencies.
+
+## Warnings
+
+No scan warnings.
+
+
+## Agent Notes
+
+- This report is generated from freshly prepared manifests, lockfiles, and audit output.
+- Vibe Guard may generate lockfiles or resolver reports, but it must not install package payloads.
+- If exact dependency evidence is missing after resolver preparation, the scan fails.
+- Use finding IDs when asking an agent to inspect or fix a specific issue.
+- Use evidence paths and one-based line numbers to open the exact manifest or lockfile location.
+

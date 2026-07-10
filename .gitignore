@@ -1,0 +1,23 @@
+# Dependency directories are restored from the pinned package manifest.
+node_modules/
+
+# Production output is generated locally and must not be versioned.
+dist/
+build/
+
+# Environment files can contain machine-specific configuration or secrets.
+.env
+.env.local
+.env.*.local
+
+# Local tooling and operating-system artifacts do not belong in the project.
+.vscode/
+*.log
+.DS_Store
+__pycache__/
+venv/
+.venv/
+
+/.claude/
+/[vibeguard_logs]/
+/CLAUDE.md

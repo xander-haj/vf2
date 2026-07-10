@@ -1,0 +1,23 @@
+{
+  "reportVersion": 1,
+  "generatedAt": "2026-07-09T19:20:13.735Z",
+  "workspaceRoot": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone",
+  "status": "CLEAN",
+  "summary": {
+    "projectsScanned": 0,
+    "dependenciesScanned": 0,
+    "findingsCount": 0,
+    "warningCount": 0,
+    "bySeverity": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "byEcosystem": {}
+  },
+  "projects": [],
+  "findings": [],
+  "warnings": []
+}

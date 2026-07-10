@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+  Voxel Frontier's browser shell hosts the WebGL canvas and accessible interface overlays.
+  The TypeScript entry point owns behavior while this document defines stable UI landmarks.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#78b7e8" />
+    <meta
+      name="description"
+      content="Voxel Frontier is an original browser-based creative voxel sandbox."
+    />
+    <title>Voxel Frontier</title>
+  </head>
+  <body>
+    <!-- The canvas receives pointer-lock input while Three.js renders the world into it. -->
+    <canvas id="game-canvas" aria-label="Voxel Frontier game viewport"></canvas>
+
+    <!-- The HUD remains HTML so status and control information stay crisp at every resolution. -->
+    <div id="hud" aria-live="polite">
+      <div id="crosshair" aria-hidden="true"></div>
+      <div id="target-label"></div>
+      <div id="hotbar" role="toolbar" aria-label="Block selection"></div>
+    </div>
+
+    <!-- Unlocking the pointer pauses simulation and reveals the controls needed to resume. -->
+    <section id="pause-screen" class="overlay visible" aria-label="Game menu">
+      <div class="panel">
+        <p class="eyebrow">ORIGINAL VOXEL SANDBOX</p>
+        <h1>Voxel Frontier</h1>
+        <p id="pause-message">Click to enter the world</p>
+        <div class="controls-grid">
+          <span>Move</span><strong>W A S D</strong>
+          <span>Jump</span><strong>Space</strong>
+          <span>Sprint</span><strong>Shift</strong>
+          <span>Break</span><strong>Left click</strong>
+          <span>Place</span><strong>Right click</strong>
+          <span>Select</span><strong>1–7 / Wheel</strong>
+          <span>Pause</span><strong>Esc</strong>
+        </div>
+        <button id="play-button" type="button">Enter world</button>
+      </div>
+    </section>
+
+    <!-- Startup failures are reported without exposing stack traces or local machine paths. -->
+    <section id="error-screen" class="overlay" role="alert">
+      <div class="panel error-panel">
+        <h1>Unable to start</h1>
+        <p id="error-message">The game could not initialize in this browser.</p>
+      </div>
+    </section>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

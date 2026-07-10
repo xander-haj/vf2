@@ -1,0 +1,1811 @@
+{
+  "reportVersion": 1,
+  "generatedAt": "2026-07-09T19:43:04.000Z",
+  "workspaceRoot": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone",
+  "status": "CLEAN",
+  "summary": {
+    "projectsScanned": 1,
+    "dependenciesScanned": 55,
+    "findingsCount": 0,
+    "warningCount": 0,
+    "bySeverity": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "byEcosystem": {}
+  },
+  "projects": [
+    {
+      "id": "v1-mine-craft-clone-npm",
+      "ecosystem": "npm",
+      "adapterName": "npm",
+      "displayName": "npm project in v1 mine-craft clone",
+      "projectRoot": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone",
+      "workspaceRelativeRoot": "v1 mine-craft clone",
+      "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+      "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+      "dependencies": [
+        {
+          "id": "v1-mine-craft-clone-npm:dimforge-rapier3d-compat:0-12-0:node-modules-dimforge-rapier3d-compat",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@dimforge/rapier3d-compat",
+          "osvPackageName": "@dimforge/rapier3d-compat",
+          "version": "0.12.0",
+          "resolvedPath": "node_modules/@dimforge/rapier3d-compat",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@dimforge/rapier3d-compat@0.12.0 in package-lock",
+              "line": 19,
+              "column": 5,
+              "length": 40,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:emnapi-core:1-11-1:node-modules-emnapi-core",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@emnapi/core",
+          "osvPackageName": "@emnapi/core",
+          "version": "1.11.1",
+          "resolvedPath": "node_modules/@emnapi/core",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@emnapi/core@1.11.1 in package-lock",
+              "line": 26,
+              "column": 5,
+              "length": 27,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:emnapi-wasi-threads:1-2-2:node-modules-emnapi-wasi-threads",
+            "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:emnapi-runtime:1-11-1:node-modules-emnapi-runtime",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@emnapi/runtime",
+          "osvPackageName": "@emnapi/runtime",
+          "version": "1.11.1",
+          "resolvedPath": "node_modules/@emnapi/runtime",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@emnapi/runtime@1.11.1 in package-lock",
+              "line": 38,
+              "column": 5,
+              "length": 30,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:emnapi-wasi-threads:1-2-2:node-modules-emnapi-wasi-threads",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@emnapi/wasi-threads",
+          "osvPackageName": "@emnapi/wasi-threads",
+          "version": "1.2.2",
+          "resolvedPath": "node_modules/@emnapi/wasi-threads",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@emnapi/wasi-threads@1.2.2 in package-lock",
+              "line": 49,
+              "column": 5,
+              "length": 35,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:napi-rs-wasm-runtime:1-1-6:node-modules-napi-rs-wasm-runtime",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@napi-rs/wasm-runtime",
+          "osvPackageName": "@napi-rs/wasm-runtime",
+          "version": "1.1.6",
+          "resolvedPath": "node_modules/@napi-rs/wasm-runtime",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@napi-rs/wasm-runtime@1.1.6 in package-lock",
+              "line": 60,
+              "column": 5,
+              "length": 36,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:tybys-wasm-util:0-10-3:node-modules-tybys-wasm-util"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:oxc-project-types:0-139-0:node-modules-oxc-project-types",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@oxc-project/types",
+          "osvPackageName": "@oxc-project/types",
+          "version": "0.139.0",
+          "resolvedPath": "node_modules/@oxc-project/types",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@oxc-project/types@0.139.0 in package-lock",
+              "line": 79,
+              "column": 5,
+              "length": 33,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-android-arm64:1-1-5:node-modules-rolldown-binding-android-arm64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-android-arm64",
+          "osvPackageName": "@rolldown/binding-android-arm64",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-android-arm64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-android-arm64@1.1.5 in package-lock",
+              "line": 89,
+              "column": 5,
+              "length": 46,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-darwin-arm64:1-1-5:node-modules-rolldown-binding-darwin-arm64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-darwin-arm64",
+          "osvPackageName": "@rolldown/binding-darwin-arm64",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-darwin-arm64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-darwin-arm64@1.1.5 in package-lock",
+              "line": 106,
+              "column": 5,
+              "length": 45,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-darwin-x64:1-1-5:node-modules-rolldown-binding-darwin-x64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-darwin-x64",
+          "osvPackageName": "@rolldown/binding-darwin-x64",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-darwin-x64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-darwin-x64@1.1.5 in package-lock",
+              "line": 123,
+              "column": 5,
+              "length": 43,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-freebsd-x64:1-1-5:node-modules-rolldown-binding-freebsd-x64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-freebsd-x64",
+          "osvPackageName": "@rolldown/binding-freebsd-x64",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-freebsd-x64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-freebsd-x64@1.1.5 in package-lock",
+              "line": 140,
+              "column": 5,
+              "length": 44,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-arm-gnueabihf:1-1-5:node-modules-rolldown-binding-linux-arm-gnueabihf",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-arm-gnueabihf",
+          "osvPackageName": "@rolldown/binding-linux-arm-gnueabihf",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-arm-gnueabihf",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-arm-gnueabihf@1.1.5 in package-lock",
+              "line": 157,
+              "column": 5,
+              "length": 52,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-arm64-gnu:1-1-5:node-modules-rolldown-binding-linux-arm64-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-arm64-gnu",
+          "osvPackageName": "@rolldown/binding-linux-arm64-gnu",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-arm64-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-arm64-gnu@1.1.5 in package-lock",
+              "line": 174,
+              "column": 5,
+              "length": 48,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-arm64-musl:1-1-5:node-modules-rolldown-binding-linux-arm64-musl",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-arm64-musl",
+          "osvPackageName": "@rolldown/binding-linux-arm64-musl",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-arm64-musl",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-arm64-musl@1.1.5 in package-lock",
+              "line": 194,
+              "column": 5,
+              "length": 49,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-ppc64-gnu:1-1-5:node-modules-rolldown-binding-linux-ppc64-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-ppc64-gnu",
+          "osvPackageName": "@rolldown/binding-linux-ppc64-gnu",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-ppc64-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-ppc64-gnu@1.1.5 in package-lock",
+              "line": 214,
+              "column": 5,
+              "length": 48,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-s390x-gnu:1-1-5:node-modules-rolldown-binding-linux-s390x-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-s390x-gnu",
+          "osvPackageName": "@rolldown/binding-linux-s390x-gnu",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-s390x-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-s390x-gnu@1.1.5 in package-lock",
+              "line": 234,
+              "column": 5,
+              "length": 48,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-x64-gnu:1-1-5:node-modules-rolldown-binding-linux-x64-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-x64-gnu",
+          "osvPackageName": "@rolldown/binding-linux-x64-gnu",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-x64-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-x64-gnu@1.1.5 in package-lock",
+              "line": 254,
+              "column": 5,
+              "length": 46,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-linux-x64-musl:1-1-5:node-modules-rolldown-binding-linux-x64-musl",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-linux-x64-musl",
+          "osvPackageName": "@rolldown/binding-linux-x64-musl",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-linux-x64-musl",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-linux-x64-musl@1.1.5 in package-lock",
+              "line": 274,
+              "column": 5,
+              "length": 47,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-openharmony-arm64:1-1-5:node-modules-rolldown-binding-openharmony-arm64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-openharmony-arm64",
+          "osvPackageName": "@rolldown/binding-openharmony-arm64",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-openharmony-arm64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-openharmony-arm64@1.1.5 in package-lock",
+              "line": 294,
+              "column": 5,
+              "length": 50,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-wasm32-wasi:1-1-5:node-modules-rolldown-binding-wasm32-wasi",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-wasm32-wasi",
+          "osvPackageName": "@rolldown/binding-wasm32-wasi",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-wasm32-wasi",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-wasm32-wasi@1.1.5 in package-lock",
+              "line": 311,
+              "column": 5,
+              "length": 44,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:emnapi-core:1-11-1:node-modules-emnapi-core",
+            "v1-mine-craft-clone-npm:emnapi-runtime:1-11-1:node-modules-emnapi-runtime",
+            "v1-mine-craft-clone-npm:napi-rs-wasm-runtime:1-1-6:node-modules-napi-rs-wasm-runtime"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-win32-arm64-msvc:1-1-5:node-modules-rolldown-binding-win32-arm64-msvc",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-win32-arm64-msvc",
+          "osvPackageName": "@rolldown/binding-win32-arm64-msvc",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-win32-arm64-msvc",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-win32-arm64-msvc@1.1.5 in package-lock",
+              "line": 330,
+              "column": 5,
+              "length": 49,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-binding-win32-x64-msvc:1-1-5:node-modules-rolldown-binding-win32-x64-msvc",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/binding-win32-x64-msvc",
+          "osvPackageName": "@rolldown/binding-win32-x64-msvc",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/@rolldown/binding-win32-x64-msvc",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/binding-win32-x64-msvc@1.1.5 in package-lock",
+              "line": 347,
+              "column": 5,
+              "length": 47,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown-pluginutils:1-0-1:node-modules-rolldown-pluginutils",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@rolldown/pluginutils",
+          "osvPackageName": "@rolldown/pluginutils",
+          "version": "1.0.1",
+          "resolvedPath": "node_modules/@rolldown/pluginutils",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@rolldown/pluginutils@1.0.1 in package-lock",
+              "line": 364,
+              "column": 5,
+              "length": 36,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:tweenjs-tween-js:23-1-3:node-modules-tweenjs-tween-js",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@tweenjs/tween.js",
+          "osvPackageName": "@tweenjs/tween.js",
+          "version": "23.1.3",
+          "resolvedPath": "node_modules/@tweenjs/tween.js",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@tweenjs/tween.js@23.1.3 in package-lock",
+              "line": 371,
+              "column": 5,
+              "length": 32,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:tybys-wasm-util:0-10-3:node-modules-tybys-wasm-util",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@tybys/wasm-util",
+          "osvPackageName": "@tybys/wasm-util",
+          "version": "0.10.3",
+          "resolvedPath": "node_modules/@tybys/wasm-util",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@tybys/wasm-util@0.10.3 in package-lock",
+              "line": 378,
+              "column": 5,
+              "length": 31,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:types-stats-js:0-17-4:node-modules-types-stats-js",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@types/stats.js",
+          "osvPackageName": "@types/stats.js",
+          "version": "0.17.4",
+          "resolvedPath": "node_modules/@types/stats.js",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@types/stats.js@0.17.4 in package-lock",
+              "line": 389,
+              "column": 5,
+              "length": 30,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@types/three",
+          "osvPackageName": "@types/three",
+          "version": "0.185.0",
+          "requestedRange": "0.185.0",
+          "resolvedPath": "node_modules/@types/three",
+          "relation": "direct",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "manifest",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+              "workspaceRelativePath": "package.json",
+              "label": "@types/three in package.json",
+              "line": 15,
+              "column": 5,
+              "length": 14,
+              "message": "Direct npm dependency declaration."
+            },
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@types/three@0.185.0 in package-lock",
+              "line": 396,
+              "column": 5,
+              "length": 27,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:dimforge-rapier3d-compat:0-12-0:node-modules-dimforge-rapier3d-compat",
+            "v1-mine-craft-clone-npm:tweenjs-tween-js:23-1-3:node-modules-tweenjs-tween-js",
+            "v1-mine-craft-clone-npm:types-stats-js:0-17-4:node-modules-types-stats-js",
+            "v1-mine-craft-clone-npm:types-webxr:0-5-24:node-modules-types-webxr",
+            "v1-mine-craft-clone-npm:fflate:0-8-3:node-modules-fflate",
+            "v1-mine-craft-clone-npm:meshoptimizer:1-1-1:node-modules-meshoptimizer"
+          ],
+          "directDependencyNames": [
+            "@types/three"
+          ],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:types-webxr:0-5-24:node-modules-types-webxr",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "@types/webxr",
+          "osvPackageName": "@types/webxr",
+          "version": "0.5.24",
+          "resolvedPath": "node_modules/@types/webxr",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "@types/webxr@0.5.24 in package-lock",
+              "line": 411,
+              "column": 5,
+              "length": 27,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:detect-libc:2-1-2:node-modules-detect-libc",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "detect-libc",
+          "osvPackageName": "detect-libc",
+          "version": "2.1.2",
+          "resolvedPath": "node_modules/detect-libc",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "detect-libc@2.1.2 in package-lock",
+              "line": 418,
+              "column": 5,
+              "length": 26,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:fdir:6-5-0:node-modules-fdir",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "fdir",
+          "osvPackageName": "fdir",
+          "version": "6.5.0",
+          "resolvedPath": "node_modules/fdir",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "fdir@6.5.0 in package-lock",
+              "line": 428,
+              "column": 5,
+              "length": 19,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:fflate:0-8-3:node-modules-fflate",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "fflate",
+          "osvPackageName": "fflate",
+          "version": "0.8.3",
+          "resolvedPath": "node_modules/fflate",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "fflate@0.8.3 in package-lock",
+              "line": 446,
+              "column": 5,
+              "length": 21,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:fsevents:2-3-3:node-modules-fsevents",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "fsevents",
+          "osvPackageName": "fsevents",
+          "version": "2.3.3",
+          "resolvedPath": "node_modules/fsevents",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "fsevents@2.3.3 in package-lock",
+              "line": 453,
+              "column": 5,
+              "length": 23,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss:1-32-0:node-modules-lightningcss",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss",
+          "osvPackageName": "lightningcss",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss@1.32.0 in package-lock",
+              "line": 468,
+              "column": 5,
+              "length": 27,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:detect-libc:2-1-2:node-modules-detect-libc"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-android-arm64:1-32-0:node-modules-lightningcss-android-arm64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-android-arm64",
+          "osvPackageName": "lightningcss-android-arm64",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-android-arm64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-android-arm64@1.32.0 in package-lock",
+              "line": 498,
+              "column": 5,
+              "length": 41,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-darwin-arm64:1-32-0:node-modules-lightningcss-darwin-arm64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-darwin-arm64",
+          "osvPackageName": "lightningcss-darwin-arm64",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-darwin-arm64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-darwin-arm64@1.32.0 in package-lock",
+              "line": 519,
+              "column": 5,
+              "length": 40,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-darwin-x64:1-32-0:node-modules-lightningcss-darwin-x64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-darwin-x64",
+          "osvPackageName": "lightningcss-darwin-x64",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-darwin-x64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-darwin-x64@1.32.0 in package-lock",
+              "line": 540,
+              "column": 5,
+              "length": 38,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-freebsd-x64:1-32-0:node-modules-lightningcss-freebsd-x64",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-freebsd-x64",
+          "osvPackageName": "lightningcss-freebsd-x64",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-freebsd-x64",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-freebsd-x64@1.32.0 in package-lock",
+              "line": 561,
+              "column": 5,
+              "length": 39,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-linux-arm-gnueabihf:1-32-0:node-modules-lightningcss-linux-arm-gnueabihf",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-linux-arm-gnueabihf",
+          "osvPackageName": "lightningcss-linux-arm-gnueabihf",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-linux-arm-gnueabihf",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-linux-arm-gnueabihf@1.32.0 in package-lock",
+              "line": 582,
+              "column": 5,
+              "length": 47,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-linux-arm64-gnu:1-32-0:node-modules-lightningcss-linux-arm64-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-linux-arm64-gnu",
+          "osvPackageName": "lightningcss-linux-arm64-gnu",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-linux-arm64-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-linux-arm64-gnu@1.32.0 in package-lock",
+              "line": 603,
+              "column": 5,
+              "length": 43,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-linux-arm64-musl:1-32-0:node-modules-lightningcss-linux-arm64-musl",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-linux-arm64-musl",
+          "osvPackageName": "lightningcss-linux-arm64-musl",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-linux-arm64-musl",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-linux-arm64-musl@1.32.0 in package-lock",
+              "line": 627,
+              "column": 5,
+              "length": 44,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-linux-x64-gnu:1-32-0:node-modules-lightningcss-linux-x64-gnu",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-linux-x64-gnu",
+          "osvPackageName": "lightningcss-linux-x64-gnu",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-linux-x64-gnu",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-linux-x64-gnu@1.32.0 in package-lock",
+              "line": 651,
+              "column": 5,
+              "length": 41,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-linux-x64-musl:1-32-0:node-modules-lightningcss-linux-x64-musl",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-linux-x64-musl",
+          "osvPackageName": "lightningcss-linux-x64-musl",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-linux-x64-musl",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-linux-x64-musl@1.32.0 in package-lock",
+              "line": 675,
+              "column": 5,
+              "length": 42,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-win32-arm64-msvc:1-32-0:node-modules-lightningcss-win32-arm64-msvc",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-win32-arm64-msvc",
+          "osvPackageName": "lightningcss-win32-arm64-msvc",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-win32-arm64-msvc",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-win32-arm64-msvc@1.32.0 in package-lock",
+              "line": 699,
+              "column": 5,
+              "length": 44,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:lightningcss-win32-x64-msvc:1-32-0:node-modules-lightningcss-win32-x64-msvc",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "lightningcss-win32-x64-msvc",
+          "osvPackageName": "lightningcss-win32-x64-msvc",
+          "version": "1.32.0",
+          "resolvedPath": "node_modules/lightningcss-win32-x64-msvc",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "lightningcss-win32-x64-msvc@1.32.0 in package-lock",
+              "line": 720,
+              "column": 5,
+              "length": 42,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:meshoptimizer:1-1-1:node-modules-meshoptimizer",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "meshoptimizer",
+          "osvPackageName": "meshoptimizer",
+          "version": "1.1.1",
+          "resolvedPath": "node_modules/meshoptimizer",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "meshoptimizer@1.1.1 in package-lock",
+              "line": 741,
+              "column": 5,
+              "length": 28,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:nanoid:3-3-15:node-modules-nanoid",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "nanoid",
+          "osvPackageName": "nanoid",
+          "version": "3.3.15",
+          "resolvedPath": "node_modules/nanoid",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "nanoid@3.3.15 in package-lock",
+              "line": 748,
+              "column": 5,
+              "length": 21,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:picocolors:1-1-1:node-modules-picocolors",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "picocolors",
+          "osvPackageName": "picocolors",
+          "version": "1.1.1",
+          "resolvedPath": "node_modules/picocolors",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "picocolors@1.1.1 in package-lock",
+              "line": 767,
+              "column": 5,
+              "length": 25,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:picomatch:4-0-5:node-modules-picomatch",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "picomatch",
+          "osvPackageName": "picomatch",
+          "version": "4.0.5",
+          "resolvedPath": "node_modules/picomatch",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "picomatch@4.0.5 in package-lock",
+              "line": 774,
+              "column": 5,
+              "length": 24,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "postcss",
+          "osvPackageName": "postcss",
+          "version": "8.5.16",
+          "resolvedPath": "node_modules/postcss",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "postcss@8.5.16 in package-lock",
+              "line": 787,
+              "column": 5,
+              "length": 22,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:nanoid:3-3-15:node-modules-nanoid",
+            "v1-mine-craft-clone-npm:picocolors:1-1-1:node-modules-picocolors",
+            "v1-mine-craft-clone-npm:source-map-js:1-2-1:node-modules-source-map-js"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:rolldown:1-1-5:node-modules-rolldown",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "rolldown",
+          "osvPackageName": "rolldown",
+          "version": "1.1.5",
+          "resolvedPath": "node_modules/rolldown",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "rolldown@1.1.5 in package-lock",
+              "line": 816,
+              "column": 5,
+              "length": 23,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:oxc-project-types:0-139-0:node-modules-oxc-project-types",
+            "v1-mine-craft-clone-npm:rolldown-pluginutils:1-0-1:node-modules-rolldown-pluginutils"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:source-map-js:1-2-1:node-modules-source-map-js",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "source-map-js",
+          "osvPackageName": "source-map-js",
+          "version": "1.2.1",
+          "resolvedPath": "node_modules/source-map-js",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "source-map-js@1.2.1 in package-lock",
+              "line": 850,
+              "column": 5,
+              "length": 28,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:three:0-185-1:node-modules-three",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "three",
+          "osvPackageName": "three",
+          "version": "0.185.1",
+          "requestedRange": "0.185.1",
+          "resolvedPath": "node_modules/three",
+          "relation": "direct",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "manifest",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+              "workspaceRelativePath": "package.json",
+              "label": "three in package.json",
+              "line": 12,
+              "column": 5,
+              "length": 7,
+              "message": "Direct npm dependency declaration."
+            },
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "three@0.185.1 in package-lock",
+              "line": 860,
+              "column": 5,
+              "length": 20,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [
+            "three"
+          ],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:tinyglobby:0-2-17:node-modules-tinyglobby",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "tinyglobby",
+          "osvPackageName": "tinyglobby",
+          "version": "0.2.17",
+          "resolvedPath": "node_modules/tinyglobby",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "tinyglobby@0.2.17 in package-lock",
+              "line": 866,
+              "column": 5,
+              "length": 25,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:fdir:6-5-0:node-modules-fdir",
+            "v1-mine-craft-clone-npm:picomatch:4-0-5:node-modules-picomatch"
+          ],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "tslib",
+          "osvPackageName": "tslib",
+          "version": "2.8.1",
+          "resolvedPath": "node_modules/tslib",
+          "relation": "transitive",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "tslib@2.8.1 in package-lock",
+              "line": 883,
+              "column": 5,
+              "length": 20,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:typescript:6-0-3:node-modules-typescript",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "typescript",
+          "osvPackageName": "typescript",
+          "version": "6.0.3",
+          "requestedRange": "6.0.3",
+          "resolvedPath": "node_modules/typescript",
+          "relation": "direct",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "manifest",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+              "workspaceRelativePath": "package.json",
+              "label": "typescript in package.json",
+              "line": 16,
+              "column": 5,
+              "length": 12,
+              "message": "Direct npm dependency declaration."
+            },
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "typescript@6.0.3 in package-lock",
+              "line": 891,
+              "column": 5,
+              "length": 25,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [],
+          "directDependencyNames": [
+            "typescript"
+          ],
+          "isQueryable": true
+        },
+        {
+          "id": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "ecosystem": "npm",
+          "osvEcosystem": "npm",
+          "packageName": "vite",
+          "osvPackageName": "vite",
+          "version": "8.1.3",
+          "requestedRange": "8.1.3",
+          "resolvedPath": "node_modules/vite",
+          "relation": "direct",
+          "scope": "dev",
+          "manifestPath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+          "lockfilePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+          "evidence": [
+            {
+              "kind": "manifest",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package.json",
+              "workspaceRelativePath": "package.json",
+              "label": "vite in package.json",
+              "line": 7,
+              "column": 12,
+              "length": 6,
+              "message": "Direct npm dependency declaration."
+            },
+            {
+              "kind": "lockfile",
+              "filePath": "/Users/xanderxhaj/Documents/coding/[codex projects]/coding/mine-craft clone/01 init/v1 mine-craft clone/package-lock.json",
+              "workspaceRelativePath": "package-lock.json",
+              "label": "vite@8.1.3 in package-lock",
+              "line": 905,
+              "column": 5,
+              "length": 19,
+              "message": "Resolved npm package entry from the lockfile."
+            }
+          ],
+          "dependencies": [
+            "v1-mine-craft-clone-npm:lightningcss:1-32-0:node-modules-lightningcss",
+            "v1-mine-craft-clone-npm:picomatch:4-0-5:node-modules-picomatch",
+            "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+            "v1-mine-craft-clone-npm:rolldown:1-1-5:node-modules-rolldown",
+            "v1-mine-craft-clone-npm:tinyglobby:0-2-17:node-modules-tinyglobby"
+          ],
+          "directDependencyNames": [
+            "vite"
+          ],
+          "isQueryable": true
+        }
+      ],
+      "edges": [
+        {
+          "fromId": "v1-mine-craft-clone-npm:emnapi-core:1-11-1:node-modules-emnapi-core",
+          "toId": "v1-mine-craft-clone-npm:emnapi-wasi-threads:1-2-2:node-modules-emnapi-wasi-threads",
+          "label": "@emnapi/wasi-threads"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:emnapi-core:1-11-1:node-modules-emnapi-core",
+          "toId": "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib",
+          "label": "tslib"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:emnapi-runtime:1-11-1:node-modules-emnapi-runtime",
+          "toId": "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib",
+          "label": "tslib"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:emnapi-wasi-threads:1-2-2:node-modules-emnapi-wasi-threads",
+          "toId": "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib",
+          "label": "tslib"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:napi-rs-wasm-runtime:1-1-6:node-modules-napi-rs-wasm-runtime",
+          "toId": "v1-mine-craft-clone-npm:tybys-wasm-util:0-10-3:node-modules-tybys-wasm-util",
+          "label": "@tybys/wasm-util"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:rolldown-binding-wasm32-wasi:1-1-5:node-modules-rolldown-binding-wasm32-wasi",
+          "toId": "v1-mine-craft-clone-npm:emnapi-core:1-11-1:node-modules-emnapi-core",
+          "label": "@emnapi/core"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:rolldown-binding-wasm32-wasi:1-1-5:node-modules-rolldown-binding-wasm32-wasi",
+          "toId": "v1-mine-craft-clone-npm:emnapi-runtime:1-11-1:node-modules-emnapi-runtime",
+          "label": "@emnapi/runtime"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:rolldown-binding-wasm32-wasi:1-1-5:node-modules-rolldown-binding-wasm32-wasi",
+          "toId": "v1-mine-craft-clone-npm:napi-rs-wasm-runtime:1-1-6:node-modules-napi-rs-wasm-runtime",
+          "label": "@napi-rs/wasm-runtime"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:tybys-wasm-util:0-10-3:node-modules-tybys-wasm-util",
+          "toId": "v1-mine-craft-clone-npm:tslib:2-8-1:node-modules-tslib",
+          "label": "tslib"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:dimforge-rapier3d-compat:0-12-0:node-modules-dimforge-rapier3d-compat",
+          "label": "@dimforge/rapier3d-compat"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:tweenjs-tween-js:23-1-3:node-modules-tweenjs-tween-js",
+          "label": "@tweenjs/tween.js"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:types-stats-js:0-17-4:node-modules-types-stats-js",
+          "label": "@types/stats.js"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:types-webxr:0-5-24:node-modules-types-webxr",
+          "label": "@types/webxr"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:fflate:0-8-3:node-modules-fflate",
+          "label": "fflate"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:types-three:0-185-0:node-modules-types-three",
+          "toId": "v1-mine-craft-clone-npm:meshoptimizer:1-1-1:node-modules-meshoptimizer",
+          "label": "meshoptimizer"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:lightningcss:1-32-0:node-modules-lightningcss",
+          "toId": "v1-mine-craft-clone-npm:detect-libc:2-1-2:node-modules-detect-libc",
+          "label": "detect-libc"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+          "toId": "v1-mine-craft-clone-npm:nanoid:3-3-15:node-modules-nanoid",
+          "label": "nanoid"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+          "toId": "v1-mine-craft-clone-npm:picocolors:1-1-1:node-modules-picocolors",
+          "label": "picocolors"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+          "toId": "v1-mine-craft-clone-npm:source-map-js:1-2-1:node-modules-source-map-js",
+          "label": "source-map-js"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:rolldown:1-1-5:node-modules-rolldown",
+          "toId": "v1-mine-craft-clone-npm:oxc-project-types:0-139-0:node-modules-oxc-project-types",
+          "label": "@oxc-project/types"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:rolldown:1-1-5:node-modules-rolldown",
+          "toId": "v1-mine-craft-clone-npm:rolldown-pluginutils:1-0-1:node-modules-rolldown-pluginutils",
+          "label": "@rolldown/pluginutils"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:tinyglobby:0-2-17:node-modules-tinyglobby",
+          "toId": "v1-mine-craft-clone-npm:fdir:6-5-0:node-modules-fdir",
+          "label": "fdir"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:tinyglobby:0-2-17:node-modules-tinyglobby",
+          "toId": "v1-mine-craft-clone-npm:picomatch:4-0-5:node-modules-picomatch",
+          "label": "picomatch"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "toId": "v1-mine-craft-clone-npm:lightningcss:1-32-0:node-modules-lightningcss",
+          "label": "lightningcss"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "toId": "v1-mine-craft-clone-npm:picomatch:4-0-5:node-modules-picomatch",
+          "label": "picomatch"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "toId": "v1-mine-craft-clone-npm:postcss:8-5-16:node-modules-postcss",
+          "label": "postcss"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "toId": "v1-mine-craft-clone-npm:rolldown:1-1-5:node-modules-rolldown",
+          "label": "rolldown"
+        },
+        {
+          "fromId": "v1-mine-craft-clone-npm:vite:8-1-3:node-modules-vite",
+          "toId": "v1-mine-craft-clone-npm:tinyglobby:0-2-17:node-modules-tinyglobby",
+          "label": "tinyglobby"
+        }
+      ],
+      "warnings": [],
+      "findings": []
+    }
+  ],
+  "findings": [],
+  "warnings": []
+}
