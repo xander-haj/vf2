@@ -94,6 +94,94 @@ button {
   color: #ffd37a;
 }
 
+#health,
+#entity-status {
+  position: absolute;
+  left: 18px;
+  padding: 7px 11px;
+  border-radius: 5px;
+  background: rgb(8 13 19 / 72%);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+#health {
+  bottom: 22px;
+  border-left: 5px solid hsl(calc(120 * var(--health-ratio)) 72% 48%);
+}
+
+#health.critical {
+  animation: health-pulse 700ms ease-in-out infinite alternate;
+}
+
+#entity-status {
+  bottom: 62px;
+  max-width: min(430px, calc(100vw - 36px));
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+#entity-status.visible {
+  opacity: 1;
+}
+
+#dialogue-panel {
+  position: absolute;
+  right: 24px;
+  bottom: 92px;
+  z-index: 31;
+  display: none;
+  width: min(420px, calc(100vw - 48px));
+  padding: 18px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 9px;
+  background: rgb(13 23 29 / 95%);
+  box-shadow: 0 14px 50px rgb(0 0 0 / 40%);
+  pointer-events: auto;
+}
+
+#dialogue-panel.visible {
+  display: block;
+}
+
+#dialogue-text {
+  margin: 0 0 12px;
+  color: #fff;
+  line-height: 1.5;
+}
+
+#dialogue-choices,
+#trade-offers {
+  display: grid;
+  gap: 7px;
+}
+
+#trade-offers:not(:empty) {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(255 255 255 / 16%);
+}
+
+#dialogue-panel button {
+  padding: 9px 11px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 5px;
+  background: rgb(255 255 255 / 9%);
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+#dialogue-panel button:hover,
+#dialogue-panel button:focus-visible {
+  border-color: #a8e683;
+  outline: none;
+}
+
+@keyframes health-pulse {
+  to { opacity: 0.62; }
+}
+
 #hotbar {
   position: absolute;
   bottom: 20px;
@@ -266,6 +354,20 @@ button {
 
   #target-label {
     bottom: 73px;
+  }
+
+  #health {
+    bottom: 66px;
+  }
+
+  #entity-status {
+    bottom: 104px;
+  }
+
+  #dialogue-panel {
+    right: 12px;
+    bottom: 120px;
+    width: calc(100vw - 24px);
   }
 
   .panel {

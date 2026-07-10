@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "activeSetId": "set-1",
+  "nextSetNumber": 4,
+  "sets": [
+    {
+      "id": "set-1",
+      "name": "editor",
+      "commands": [
+        {
+          "id": "client-1783692014879-e9470683483d6",
+          "command": "npm run content:validate"
+        },
+        {
+          "id": "client-1783692026058-7afc336500ead8",
+          "command": "npm run test:content"
+        },
+        {
+          "id": "client-1783692042413-1fb8b6dc079d38",
+          "command": "npm run editor"
+        }
+      ]
+    },
+    {
+      "id": "ce90b797-adbe-4d53-9897-5fd27577d94b",
+      "name": "dev",
+      "commands": [
+        {
+          "id": "4482d05f-94ec-44df-832a-a0760c9d1bb5",
+          "command": "npm run content:validate"
+        },
+        {
+          "id": "d2cf3498-a865-4117-90c4-fe858ad675a7",
+          "command": "npm run test:content"
+        },
+        {
+          "id": "client-1783692069602-ee8dcce47c48b8",
+          "command": "npm run dev"
+        }
+      ]
+    },
+    {
+      "id": "1f6c6372-9094-4e1c-8d3a-1fdd851092b2",
+      "name": "build",
+      "commands": [
+        {
+          "id": "49471685-97db-459c-ad92-cc548b8e3125",
+          "command": "npm run content:validate"
+        },
+        {
+          "id": "f5a766bb-2fcd-488b-ad52-86f7c35ec610",
+          "command": "npm run test:content"
+        },
+        {
+          "id": "client-1783692124782-bcd9f85c35557",
+          "command": "npm run build"
+        }
+      ]
+    }
+  ]
+}

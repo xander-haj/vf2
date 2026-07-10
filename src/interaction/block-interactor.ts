@@ -16,6 +16,7 @@ import { BLOCK_REACH } from "../game/game-config";
 import type { InputController } from "../player/input-controller";
 import type { PlayerController } from "../player/player-controller";
 import type { World } from "../world/world";
+import type { EntityManager } from "../engine/entities/entity-manager";
 
 /** Integer coordinates identify one voxel cell without allocating Three.js vectors per traversal step. */
 interface BlockCoordinate {
@@ -28,6 +29,7 @@ interface BlockCoordinate {
 interface BlockTarget {
   readonly hit: BlockCoordinate;
   readonly placement: BlockCoordinate;
+  readonly distance: number;
 }
 
 /** InteractionUpdate reports whether world data changed during the current frame. */
@@ -66,7 +68,7 @@ function traceVoxels(origin: Vector3, direction: Vector3, world: World): BlockTa
   // Each iteration crosses exactly one nearest grid plane, guaranteeing front-to-back cell order.
   while (distance <= BLOCK_REACH) {
     if (world.getBlock(x, y, z) !== BlockId.Air) {
-      return { hit: { x, y, z }, placement: previous };
+      return { hit: { x, y, z }, placement: previous, distance };
     }
     previous = { x, y, z };
     if (nextX <= nextY && nextX <= nextZ) {
@@ -98,6 +100,7 @@ export class BlockInteractor {
     private readonly world: World,
     private readonly player: PlayerController,
     private readonly input: InputController,
+    private readonly entities: EntityManager,
   ) {
     const selectionBox = new BoxGeometry(1.006, 1.006, 1.006);
     const edges = new EdgesGeometry(selectionBox);
@@ -133,22 +136,38 @@ export class BlockInteractor {
       this.selection.position.set(target.hit.x + 0.5, target.hit.y + 0.5, target.hit.z + 0.5);
     }
     if (!active) {
-      return { changedWorld: false };
-    }
-    if (target === null) {
-      // Empty-space clicks are consumed now so they cannot fire later when the crosshair reaches terrain.
       this.input.consumePrimaryAction();
       this.input.consumeSecondaryAction();
       return { changedWorld: false };
     }
 
-    // Breaking takes precedence when both buttons arrive in one browser frame.
+    // Entity attacks take precedence over terrain along the same ray, matching the visible actor target.
     if (this.input.consumePrimaryAction()) {
+      const entityResult = this.entities.attackFromRay(
+        this.eye,
+        this.direction,
+        target?.distance ?? BLOCK_REACH,
+      );
+      if (entityResult.handled || target === null) {
+        return { changedWorld: false };
+      }
       return { changedWorld: this.world.setBlock(target.hit.x, target.hit.y, target.hit.z, BlockId.Air) };
     }
     if (this.input.consumeSecondaryAction()) {
+      const entityResult = this.entities.interactFromRay(
+        this.eye,
+        this.direction,
+        target?.distance ?? BLOCK_REACH,
+      );
+      if (entityResult.handled || target === null) {
+        return { changedWorld: false };
+      }
       const { x, y, z } = target.placement;
-      if (this.world.getBlock(x, y, z) !== BlockId.Air || this.player.occupiesBlock(x, y, z)) {
+      if (
+        this.world.getBlock(x, y, z) !== BlockId.Air
+        || this.player.occupiesBlock(x, y, z)
+        || this.entities.occupiesBlock(x, y, z)
+      ) {
         return { changedWorld: false };
       }
       return { changedWorld: this.world.setBlock(x, y, z, this.selectedBlock) };

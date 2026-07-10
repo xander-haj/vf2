@@ -24,6 +24,24 @@ export function blockOccludesFaces(blockId: BlockId): boolean {
   return getBlockDefinition(blockId).occludesFaces;
 }
 
+/** Returns the render pass used for invisible, opaque, or blended voxel geometry. */
+export function getBlockRenderLayer(blockId: BlockId): BlockDefinition["renderLayer"] {
+  return getBlockDefinition(blockId).renderLayer;
+}
+
+/** Reports whether one block face remains visible beside a neighboring block. */
+export function shouldRenderBlockFace(blockId: BlockId, neighborId: BlockId): boolean {
+  const layer = getBlockRenderLayer(blockId);
+  if (layer === "invisible") {
+    return false;
+  }
+  if (layer === "translucent" && getBlockRenderLayer(neighborId) === "translucent") {
+    // A stable ID tie-break emits one boundary face between unlike fluids and none inside one fluid volume.
+    return blockId < neighborId;
+  }
+  return !blockOccludesFaces(neighborId);
+}
+
 /** Selects the appropriate atlas texture for a horizontal, upper, or lower cube face. */
 export function getBlockTexture(blockId: BlockId, face: BlockFace): TextureName {
   return getBlockDefinition(blockId).textures[face];
@@ -35,6 +53,6 @@ export function isBlockId(value: unknown): value is BlockId {
     typeof value === "number" &&
     Number.isInteger(value) &&
     value >= BlockId.Air &&
-    value <= BlockId.DeepslateEmeraldOre
+    value <= BlockId.Lava
   );
 }

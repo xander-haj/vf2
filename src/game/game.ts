@@ -2,7 +2,7 @@
  * Orchestrates the renderer, scene, world, player, interaction, input, persistence, and HUD.
  * This is the application lifecycle boundary and the only module that advances frame-level systems.
  */
-
+// Three.js rendering primitives and explicit game-system imports define the complete lifecycle ownership graph.
 import {
   Color,
   DirectionalLight,
@@ -26,6 +26,17 @@ import { PlayerController } from "../player/player-controller";
 import { WorldStorage } from "../storage/world-storage";
 import { Hud } from "../ui/hud";
 import { World } from "../world/world";
+import { EntityManager } from "../engine/entities/entity-manager";
+import type { EntityRuntimeContent } from "../engine/entities/entity-runtime";
+import { ASSET_DEFINITIONS } from "../generated/asset-registry";
+import { BEHAVIOR_GRAPHS } from "../generated/behavior-registry";
+import { ENTITY_DEFINITIONS, ENTITY_ANIMATION_SETS } from "../generated/entity-registry";
+import {
+  DIALOGUE_DEFINITIONS,
+  LOOT_TABLES,
+  TRADE_TABLES,
+} from "../generated/interaction-registry";
+import { ENTITY_SPAWN_RULES } from "../generated/spawn-registry";
 
 // A light blue sky and matching fog hide the square edge of the streamed chunk area.
 const SKY_COLOR = 0x78b7e8;
@@ -36,17 +47,20 @@ export class Game {
   private readonly scene = new Scene();
   private readonly camera: PerspectiveCamera;
   private readonly atlas: TextureAtlas;
-  private readonly material: MeshLambertMaterial;
+  private readonly opaqueMaterial: MeshLambertMaterial;
+  private readonly translucentMaterial: MeshLambertMaterial;
   private readonly storage: WorldStorage;
   private readonly world: World;
   private readonly input: InputController;
   private readonly player: PlayerController;
+  private readonly entities: EntityManager;
   private readonly interactor: BlockInteractor;
   private readonly hud: Hud;
   private selectedIndex = 0;
   private hasEnteredWorld = false;
   private lastTimestamp = performance.now();
   private running = false;
+  private disposed = false;
 
   public constructor(private readonly canvas: HTMLCanvasElement) {
     this.renderer = new WebGLRenderer({
@@ -64,21 +78,60 @@ export class Game {
     this.addLighting();
 
     this.atlas = createTextureAtlas();
-    this.material = new MeshLambertMaterial({
+    this.opaqueMaterial = new MeshLambertMaterial({
       map: this.atlas.texture,
       fog: true,
     });
+    this.translucentMaterial = new MeshLambertMaterial({
+      map: this.atlas.texture,
+      fog: true,
+      transparent: true,
+      opacity: 0.72,
+      depthWrite: false,
+    });
     this.storage = new WorldStorage();
-    this.world = new World(this.scene, this.material, this.atlas, this.storage);
+    this.world = new World(
+      this.scene,
+      [this.opaqueMaterial, this.translucentMaterial],
+      this.atlas,
+      this.storage,
+    );
     this.input = new InputController(this.canvas, this.handleGameplayStateChange);
     this.player = new PlayerController(this.camera, this.world.findSpawn());
-    this.interactor = new BlockInteractor(this.camera, this.world, this.player, this.input);
+    const content: EntityRuntimeContent = {
+      assets: ASSET_DEFINITIONS,
+      definitions: ENTITY_DEFINITIONS,
+      animationSets: ENTITY_ANIMATION_SETS,
+      behaviors: BEHAVIOR_GRAPHS,
+      spawnRules: ENTITY_SPAWN_RULES,
+      lootTables: LOOT_TABLES,
+      dialogues: DIALOGUE_DEFINITIONS,
+      trades: TRADE_TABLES,
+    };
+    this.entities = new EntityManager(
+      this.scene,
+      this.world,
+      this.player,
+      this.storage,
+      content,
+      this.handleEntityStatus,
+    );
+    this.interactor = new BlockInteractor(
+      this.camera,
+      this.world,
+      this.player,
+      this.input,
+      this.entities,
+    );
     this.hud = new Hud(
       () => this.input.requestGameplay(),
       (index) => this.selectBlock(index),
       this.input.isMobileEnabled(),
+      (index) => this.chooseDialogue(index),
+      (index) => this.executeTrade(index),
     );
     this.selectBlock(0);
+    this.syncEntityHud();
     this.hud.setPaused(true, false);
 
     window.addEventListener("resize", this.handleResize);
@@ -110,8 +163,37 @@ export class Game {
     if (active) {
       this.hasEnteredWorld = true;
     }
-    this.hud.setPaused(!active, this.hasEnteredWorld);
+    const dialogueOpen = this.entities.getActiveDialogue() !== null;
+    this.hud.setPaused(!active && !dialogueOpen, this.hasEnteredWorld);
   };
+
+  /** Routes simulation outcomes into the persistent accessible status landmark. */
+  private readonly handleEntityStatus = (message: string): void => {
+    this.hud.setEntityStatus(message);
+  };
+
+  /** Refreshes health, dialogue, and offer controls from authoritative runtime state. */
+  private syncEntityHud(): void {
+    const health = this.player.getHealth();
+    this.hud.setHealth(health.current, health.maximum);
+    this.hud.setDialogue(this.entities.getActiveDialogue(), this.entities.getActiveTradeOffers());
+  }
+
+  /** Advances a conversation and returns to captured play after a terminal choice. */
+  private chooseDialogue(index: number): void {
+    const active = this.entities.chooseDialogue(index);
+    this.syncEntityHud();
+    if (active === null) {
+      this.input.requestGameplay();
+    }
+  }
+
+  /** Executes one visible offer and immediately reports its exact atomic result. */
+  private executeTrade(index: number): void {
+    const result = this.entities.executeTrade(index);
+    this.hud.setEntityStatus(result.message);
+    this.syncEntityHud();
+  }
 
   /** Normalizes a requested slot, then updates both placement behavior and visual selection. */
   private selectBlock(index: number): void {
@@ -147,18 +229,23 @@ export class Game {
     if (active) {
       this.world.updateStreaming(this.player.getPosition());
       this.player.update(deltaSeconds, this.input, this.world);
+      this.entities.update(deltaSeconds);
       this.updateHotbarSelection();
     }
-    const interaction = this.interactor.update(active);
-    if (interaction.changedWorld && !this.world.isPersistent()) {
+    this.interactor.update(active && this.player.isAlive());
+    if (!this.world.isPersistent()) {
       this.hud.showPersistenceWarning();
+    }
+    this.syncEntityHud();
+    if (active && this.entities.getActiveDialogue() !== null) {
+      this.input.releaseGameplay();
     }
     this.renderer.render(this.scene, this.camera);
   };
 
   /** Starts the browser-owned animation loop exactly once. */
   public start(): void {
-    if (this.running) {
+    if (this.running || this.disposed) {
       return;
     }
     this.running = true;
@@ -168,16 +255,19 @@ export class Game {
 
   /** Stops animation, detaches listeners, and releases every owned CPU and GPU resource. */
   public dispose(): void {
-    if (!this.running) {
+    if (this.disposed) {
       return;
     }
+    this.disposed = true;
     this.running = false;
     this.renderer.setAnimationLoop(null);
     window.removeEventListener("resize", this.handleResize);
     this.interactor.dispose();
+    this.entities.dispose();
     this.input.dispose();
     this.world.dispose();
-    this.material.dispose();
+    this.opaqueMaterial.dispose();
+    this.translucentMaterial.dispose();
     this.atlas.texture.dispose();
     this.renderer.dispose();
   }

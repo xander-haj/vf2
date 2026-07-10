@@ -144,6 +144,19 @@ export class InputController {
     }
   }
 
+  /** Releases desktop or touch capture so modal entity interaction can receive pointer input. */
+  public releaseGameplay(): void {
+    if (this.mobile.isEnabled()) {
+      this.mobile.setActive(false);
+      this.clearTransientState();
+      this.onGameplayStateChange();
+      return;
+    }
+    if (this.isPointerLocked()) {
+      document.exitPointerLock();
+    }
+  }
+
   /** Reports whether the canvas currently receives relative mouse movement. */
   public isPointerLocked(): boolean {
     return document.pointerLockElement === this.canvas;

@@ -9,6 +9,9 @@ import {
   JUMP_SPEED,
   LOOK_SENSITIVITY,
   PLAYER_EYE_HEIGHT,
+  PLAYER_HURT_COOLDOWN,
+  PLAYER_MAX_HEALTH,
+  PLAYER_RESPAWN_DELAY,
   SPRINT_SPEED,
   WALK_SPEED,
 } from "../game/game-config";
@@ -22,16 +25,21 @@ const MAX_PITCH = Math.PI / 2 - 0.01;
 /** PlayerController advances physical player state and keeps the camera at eye height. */
 export class PlayerController {
   private readonly position: Vector3;
+  private readonly spawnPosition: Vector3;
   private readonly velocity = new Vector3();
   private grounded = false;
   private yaw = 0;
   private pitch = 0;
+  private health = PLAYER_MAX_HEALTH;
+  private hurtCooldownSeconds = 0;
+  private respawnSeconds = 0;
 
   public constructor(
     private readonly camera: PerspectiveCamera,
     spawnPosition: Vector3,
   ) {
     this.position = spawnPosition.clone();
+    this.spawnPosition = spawnPosition.clone();
     this.camera.rotation.order = "YXZ";
     this.syncCamera();
   }
@@ -75,6 +83,15 @@ export class PlayerController {
 
   /** Advances view and physics by one active gameplay frame. */
   public update(deltaSeconds: number, input: InputController, world: World): void {
+    this.hurtCooldownSeconds = Math.max(0, this.hurtCooldownSeconds - deltaSeconds);
+    if (!this.isAlive()) {
+      input.consumeMouseDelta();
+      this.respawnSeconds = Math.max(0, this.respawnSeconds - deltaSeconds);
+      if (this.respawnSeconds === 0) {
+        this.respawn();
+      }
+      return;
+    }
     const mouse = input.consumeMouseDelta();
     this.yaw -= mouse.x * LOOK_SENSITIVITY;
     this.pitch = MathUtils.clamp(this.pitch - mouse.y * LOOK_SENSITIVITY, -MAX_PITCH, MAX_PITCH);
@@ -99,6 +116,40 @@ export class PlayerController {
   /** Copies the camera's current eye coordinate into a caller-owned vector. */
   public getEyePosition(target: Vector3): Vector3 {
     return target.copy(this.camera.position);
+  }
+
+  /** Applies bounded combat damage once per hurt window and reports whether the hit landed. */
+  public takeDamage(amount: number): boolean {
+    if (!this.isAlive() || this.hurtCooldownSeconds > 0 || !Number.isFinite(amount) || amount <= 0) {
+      return false;
+    }
+    this.health = Math.max(0, this.health - amount);
+    this.hurtCooldownSeconds = PLAYER_HURT_COOLDOWN;
+    if (this.health === 0) {
+      this.respawnSeconds = PLAYER_RESPAWN_DELAY;
+      this.velocity.set(0, 0, 0);
+    }
+    return true;
+  }
+
+  /** Reports whether combat and movement systems may currently act on the player. */
+  public isAlive(): boolean {
+    return this.health > 0;
+  }
+
+  /** Returns current and maximum health for accessible HUD rendering. */
+  public getHealth(): Readonly<{ current: number; maximum: number }> {
+    return { current: this.health, maximum: PLAYER_MAX_HEALTH };
+  }
+
+  /** Restores the complete physical player state at the world's safe initial spawn. */
+  private respawn(): void {
+    this.position.copy(this.spawnPosition);
+    this.velocity.set(0, 0, 0);
+    this.health = PLAYER_MAX_HEALTH;
+    this.hurtCooldownSeconds = PLAYER_HURT_COOLDOWN;
+    this.grounded = false;
+    this.syncCamera();
   }
 
   /** Reports whether placing a unit block at the requested cell would trap the player. */

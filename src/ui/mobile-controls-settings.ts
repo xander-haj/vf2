@@ -5,11 +5,15 @@
 
 import {
   DEFAULT_MOBILE_CONTROL_SETTINGS,
+  MAX_CAMERA_SWIPE_STRENGTH,
   MAX_HORIZONTAL_RATIO,
   MAX_JOYSTICK_SIZE,
+  MAX_JOYSTICK_STRENGTH,
   MAX_VERTICAL_RATIO,
+  MIN_CAMERA_SWIPE_STRENGTH,
   MIN_HORIZONTAL_RATIO,
   MIN_JOYSTICK_SIZE,
+  MIN_JOYSTICK_STRENGTH,
   MIN_VERTICAL_RATIO,
   loadMobileControlSettings,
   saveMobileControlSettings,
@@ -42,6 +46,11 @@ export class MobileControlsSettings {
   private readonly sizeInput = requireElement<HTMLInputElement>("joystick-size-setting");
   private readonly horizontalInput = requireElement<HTMLInputElement>("joystick-horizontal-setting");
   private readonly verticalInput = requireElement<HTMLInputElement>("joystick-vertical-setting");
+  private readonly joystickStrengthInput = requireElement<HTMLInputElement>("joystick-strength-setting");
+  private readonly cameraStrengthInput = requireElement<HTMLInputElement>("camera-swipe-strength-setting");
+  private readonly joystickStrengthOutput = requireElement<HTMLOutputElement>("joystick-strength-value");
+  private readonly cameraStrengthOutput = requireElement<HTMLOutputElement>("camera-swipe-strength-value");
+  private currentSettings = DEFAULT_MOBILE_CONTROL_SETTINGS;
 
   public constructor(
     private readonly root: HTMLElement,
@@ -63,6 +72,8 @@ export class MobileControlsSettings {
     this.sizeInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.horizontalInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.verticalInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
+    this.joystickStrengthInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
+    this.cameraStrengthInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
   }
 
   /** Opens the panel after asking gameplay input to release every captured control. */
@@ -101,6 +112,16 @@ export class MobileControlsSettings {
         MAX_HORIZONTAL_RATIO,
       ),
       verticalRatio: clamp(Number(this.verticalInput.value), MIN_VERTICAL_RATIO, MAX_VERTICAL_RATIO),
+      joystickStrength: clamp(
+        Number(this.joystickStrengthInput.value),
+        MIN_JOYSTICK_STRENGTH,
+        MAX_JOYSTICK_STRENGTH,
+      ),
+      cameraSwipeStrength: clamp(
+        Number(this.cameraStrengthInput.value),
+        MIN_CAMERA_SWIPE_STRENGTH,
+        MAX_CAMERA_SWIPE_STRENGTH,
+      ),
     };
     this.applySettings(settings, true);
   };
@@ -110,6 +131,11 @@ export class MobileControlsSettings {
     this.sizeInput.value = String(settings.joystickSize);
     this.horizontalInput.value = String(settings.horizontalRatio);
     this.verticalInput.value = String(settings.verticalRatio);
+    this.joystickStrengthInput.value = String(settings.joystickStrength);
+    this.cameraStrengthInput.value = String(settings.cameraSwipeStrength);
+    this.joystickStrengthOutput.value = `${Math.round(settings.joystickStrength * 100)}%`;
+    this.cameraStrengthOutput.value = `${Math.round(settings.cameraSwipeStrength * 100)}%`;
+    this.currentSettings = settings;
     this.root.style.setProperty("--joystick-size", `${settings.joystickSize}px`);
     this.root.style.setProperty("--joystick-left", `${settings.horizontalRatio * 100}vw`);
     this.root.style.setProperty("--joystick-bottom", `${settings.verticalRatio * 100}vh`);
@@ -118,6 +144,16 @@ export class MobileControlsSettings {
         ? "Settings saved on this device."
         : "Settings applied, but browser storage is unavailable.";
     }
+  }
+
+  /** Returns the live movement response multiplier without exposing mutable settings state. */
+  public getJoystickStrength(): number {
+    return this.currentSettings.joystickStrength;
+  }
+
+  /** Returns the live touch-camera multiplier while desktop mouse response remains unchanged. */
+  public getCameraSwipeStrength(): number {
+    return this.currentSettings.cameraSwipeStrength;
   }
 
   /** Disables fullscreen interaction when the browser does not expose the standard capability. */

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "dialogues": [
+    {
+      "id": "vf:cartographer_dialogue",
+      "startNodeId": "welcome",
+      "nodes": [
+        { "id": "welcome", "text": "The land changes with every seed, but landmarks still tell a story.",
+          "choices": [{ "text": "Any advice?", "nextNodeId": "advice" }, { "text": "Goodbye." }] },
+        { "id": "advice",
+          "text": "Follow stone ridges for ore, and carry blocks before crossing deep valleys.",
+          "choices": [{ "text": "Thanks." }] }
+      ]
+    }
+  ]
+}

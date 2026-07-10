@@ -1,69 +1,83 @@
 /**
- * Stores the compact block grid and current Three.js mesh for one world chunk.
- * Chunk owns geometry lifetime, while the World supplies the shared material and scene membership.
+ * Routes one chunk column across compact vertical sections with independently owned mesh geometry.
+ * World coordinates remain unchanged while section boundaries reduce storage and remeshing scope.
  */
 
-import type { Mesh } from "three";
 import { BlockId } from "../game/block-types";
-import { CHUNK_SIZE, WORLD_HEIGHT } from "../game/game-config";
-
-// One byte per block is sufficient for the current identifier range and minimizes browser memory use.
-const CHUNK_VOLUME = CHUNK_SIZE * WORLD_HEIGHT * CHUNK_SIZE;
+import { ChunkSection } from "./chunk-section";
+import type { WorldDimensions } from "./world-profile";
 
 /** Chunk represents a fixed horizontal region addressed by integer chunk coordinates. */
 export class Chunk {
-  public readonly blocks = new Uint8Array(CHUNK_VOLUME);
-  public mesh: Mesh | null = null;
+  public readonly sections: readonly ChunkSection[];
 
   public constructor(
     public readonly chunkX: number,
     public readonly chunkZ: number,
-  ) {}
+    public readonly dimensions: WorldDimensions,
+  ) {
+    const sectionCount = dimensions.worldHeight / dimensions.sectionHeight;
+    this.sections = Array.from(
+      { length: sectionCount },
+      (_, sectionIndex) => new ChunkSection(
+        sectionIndex,
+        dimensions.chunkSize,
+        dimensions.sectionHeight,
+      ),
+    );
+  }
 
-  /** Converts validated local coordinates into the flat byte-array layout. */
-  private getIndex(localX: number, y: number, localZ: number): number {
-    return localX + CHUNK_SIZE * (localZ + CHUNK_SIZE * y);
+  /** Returns the section containing an absolute chunk-local Y coordinate, or null outside the world. */
+  public getSectionForY(y: number): ChunkSection | null {
+    if (y < 0 || y >= this.dimensions.worldHeight) {
+      return null;
+    }
+    const sectionIndex = Math.floor(y / this.dimensions.sectionHeight);
+    return this.sections[sectionIndex] ?? null;
   }
 
   /** Returns a local block, treating out-of-range coordinates as air instead of reading invalid memory. */
   public getBlock(localX: number, y: number, localZ: number): BlockId {
     if (
       localX < 0 ||
-      localX >= CHUNK_SIZE ||
+      localX >= this.dimensions.chunkSize ||
       localZ < 0 ||
-      localZ >= CHUNK_SIZE ||
+      localZ >= this.dimensions.chunkSize ||
       y < 0 ||
-      y >= WORLD_HEIGHT
+      y >= this.dimensions.worldHeight
     ) {
       return BlockId.Air;
     }
-    return this.blocks[this.getIndex(localX, y, localZ)] as BlockId;
+    const section = this.getSectionForY(y);
+    if (section === null) {
+      return BlockId.Air;
+    }
+    const localY = y - section.sectionIndex * this.dimensions.sectionHeight;
+    return section.getBlock(localX, localY, localZ);
   }
 
   /** Writes a local block when coordinates are valid and reports whether the value changed. */
   public setBlock(localX: number, y: number, localZ: number, blockId: BlockId): boolean {
     if (
       localX < 0 ||
-      localX >= CHUNK_SIZE ||
+      localX >= this.dimensions.chunkSize ||
       localZ < 0 ||
-      localZ >= CHUNK_SIZE ||
+      localZ >= this.dimensions.chunkSize ||
       y < 0 ||
-      y >= WORLD_HEIGHT
+      y >= this.dimensions.worldHeight
     ) {
       return false;
     }
-    const index = this.getIndex(localX, y, localZ);
-    if (this.blocks[index] === blockId) {
+    const section = this.getSectionForY(y);
+    if (section === null) {
       return false;
     }
-    this.blocks[index] = blockId;
-    return true;
+    const localY = y - section.sectionIndex * this.dimensions.sectionHeight;
+    return section.setBlock(localX, localY, localZ, blockId);
   }
 
-  /** Releases only chunk-owned geometry because the world reuses one material across all meshes. */
+  /** Releases all section geometry because the world reuses one material across every chunk mesh. */
   public disposeGeometry(): void {
-    this.mesh?.geometry.dispose();
-    this.mesh = null;
+    this.sections.forEach((section) => section.disposeGeometry());
   }
 }
-

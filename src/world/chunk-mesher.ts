@@ -11,13 +11,14 @@ import {
 } from "three";
 import {
   BlockId,
-  blockOccludesFaces,
+  getBlockRenderLayer,
   getBlockTexture,
+  shouldRenderBlockFace,
   type BlockFace,
 } from "../game/block-types";
-import { CHUNK_SIZE, WORLD_HEIGHT } from "../game/game-config";
 import type { TextureAtlas } from "../game/texture-atlas";
 import type { Chunk } from "./chunk";
+import type { WorldDimensions } from "./world-profile";
 
 /** One face definition supplies its outward neighbor, normal, vertices, and texture category. */
 interface FaceDefinition {
@@ -70,8 +71,9 @@ const FACE_DEFINITIONS: readonly FaceDefinition[] = [
 /** ChunkMesher builds renderable meshes using shared material and atlas resources. */
 export class ChunkMesher {
   public constructor(
-    private readonly material: Material,
+    private readonly materials: readonly [Material, Material],
     private readonly atlas: TextureAtlas,
+    private readonly dimensions: WorldDimensions,
   ) {}
 
   /** Appends one indexed quad and its atlas UVs to the growing geometry buffers. */
@@ -81,7 +83,7 @@ export class ChunkMesher {
     uvs: number[],
     indices: number[],
     localX: number,
-    y: number,
+    localY: number,
     localZ: number,
     blockId: BlockId,
     face: FaceDefinition,
@@ -91,7 +93,7 @@ export class ChunkMesher {
 
     // Four vertices are intentionally duplicated per face so hard normals and separate UV tiles remain exact.
     face.vertices.forEach(([x, vertexY, z]) => {
-      positions.push(localX + x, y + vertexY, localZ + z);
+      positions.push(localX + x, localY + vertexY, localZ + z);
       normals.push(face.normal[0], face.normal[1], face.normal[2]);
     });
     uvs.push(
@@ -110,34 +112,46 @@ export class ChunkMesher {
     );
   }
 
-  /** Builds a mesh for one chunk, consulting the world callback for every adjacent block. */
+  /** Builds one vertical section mesh while consulting the world callback across every section boundary. */
   public buildMesh(
     chunk: Chunk,
+    sectionIndex: number,
     getWorldBlock: (worldX: number, y: number, worldZ: number) => BlockId,
   ): Mesh {
     const positions: number[] = [];
     const normals: number[] = [];
     const uvs: number[] = [];
-    const indices: number[] = [];
-    const worldStartX = chunk.chunkX * CHUNK_SIZE;
-    const worldStartZ = chunk.chunkZ * CHUNK_SIZE;
+    const opaqueIndices: number[] = [];
+    const translucentIndices: number[] = [];
+    const section = chunk.sections[sectionIndex];
+    if (section === undefined) {
+      throw new Error(`Cannot mesh missing section ${sectionIndex} in chunk ${chunk.chunkX},${chunk.chunkZ}.`);
+    }
+    const { chunkSize, sectionHeight } = this.dimensions;
+    const worldStartX = chunk.chunkX * chunkSize;
+    const worldStartY = sectionIndex * sectionHeight;
+    const worldStartZ = chunk.chunkZ * chunkSize;
 
     // Every non-air block contributes only faces whose neighboring block does not hide them.
-    for (let y = 0; y < WORLD_HEIGHT; y += 1) {
-      for (let localZ = 0; localZ < CHUNK_SIZE; localZ += 1) {
-        for (let localX = 0; localX < CHUNK_SIZE; localX += 1) {
-          const blockId = chunk.getBlock(localX, y, localZ);
+    for (let localY = 0; localY < sectionHeight; localY += 1) {
+      const worldY = worldStartY + localY;
+      for (let localZ = 0; localZ < chunkSize; localZ += 1) {
+        for (let localX = 0; localX < chunkSize; localX += 1) {
+          const blockId = section.getBlock(localX, localY, localZ);
           if (blockId === BlockId.Air) {
             continue;
           }
           FACE_DEFINITIONS.forEach((face) => {
             const neighbor = getWorldBlock(
               worldStartX + localX + face.neighbor[0],
-              y + face.neighbor[1],
+              worldY + face.neighbor[1],
               worldStartZ + localZ + face.neighbor[2],
             );
-            if (!blockOccludesFaces(neighbor)) {
-              this.appendFace(positions, normals, uvs, indices, localX, y, localZ, blockId, face);
+            if (shouldRenderBlockFace(blockId, neighbor)) {
+              const indices = getBlockRenderLayer(blockId) === "translucent"
+                ? translucentIndices
+                : opaqueIndices;
+              this.appendFace(positions, normals, uvs, indices, localX, localY, localZ, blockId, face);
             }
           });
         }
@@ -148,13 +162,15 @@ export class ChunkMesher {
     geometry.setAttribute("position", new Float32BufferAttribute(positions, 3));
     geometry.setAttribute("normal", new Float32BufferAttribute(normals, 3));
     geometry.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+    const indices = [...opaqueIndices, ...translucentIndices];
     geometry.setIndex(indices);
+    geometry.addGroup(0, opaqueIndices.length, 0);
+    geometry.addGroup(opaqueIndices.length, translucentIndices.length, 1);
     geometry.computeBoundingSphere();
 
-    const mesh = new Mesh(geometry, this.material);
-    mesh.position.set(worldStartX, 0, worldStartZ);
-    mesh.name = `chunk-${chunk.chunkX}-${chunk.chunkZ}`;
+    const mesh = new Mesh(geometry, [...this.materials]);
+    mesh.position.set(worldStartX, worldStartY, worldStartZ);
+    mesh.name = `chunk-${chunk.chunkX}-${chunk.chunkZ}-section-${sectionIndex}`;
     return mesh;
   }
 }
-

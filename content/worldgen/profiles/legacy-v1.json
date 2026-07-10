@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "vf:legacy_v1",
+  "generatorVersion": 1,
+  "contentRegistryVersion": 1,
+  "dimensions": { "chunkSize": 16, "worldHeight": 64, "sectionHeight": 16 },
+  "renderDistance": 2,
+  "terrain": {
+    "baseHeight": 25,
+    "minimumHeight": 4,
+    "topMargin": 9,
+    "bedrockMaximumHeight": 2,
+    "deepslateMaximumHeight": 14,
+    "continentalScale": 72,
+    "continentalOctaves": 4,
+    "continentalAmplitude": 12,
+    "detailScale": 24,
+    "detailOctaves": 3,
+    "detailAmplitude": 4
+  },
+  "trees": {
+    "minimumSurfaceOffset": -1,
+    "canopyRadius": 2,
+    "minimumTrunkHeight": 4,
+    "trunkHeightRange": 2,
+    "rootSalt": 503,
+    "rootThreshold": 0.982,
+    "heightSalt": 887
+  },
+  "biomeSetId": "vf:legacy_biomes",
+  "featureSetId": "vf:legacy_features"
+}

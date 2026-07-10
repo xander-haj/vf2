@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "graphs": [
+    {
+      "id": "vf:cartographer_behavior",
+      "rootNodeId": "root",
+      "nodes": [
+        { "id": "root", "type": "selector", "children": ["greet", "wander"] },
+        { "id": "greet", "type": "sequence", "children": ["player-near", "face-player"] },
+        { "id": "player-near", "type": "condition", "condition": "player_in_interaction_range",
+          "parameters": { "range": 5 } },
+        { "id": "face-player", "type": "action", "action": "look_at_player" },
+        { "id": "wander", "type": "action", "action": "random_stroll",
+          "parameters": { "intervalSeconds": 3.5, "idleChance": 0.42 } }
+      ]
+    },
+    {
+      "id": "vf:stoneback_behavior",
+      "rootNodeId": "root",
+      "nodes": [
+        { "id": "root", "type": "selector", "children": ["attack-sequence", "chase-sequence",
+          "acquire", "patrol"] },
+        { "id": "attack-sequence", "type": "sequence", "children": ["has-target", "target-near",
+          "attack-cooldown"] },
+        { "id": "has-target", "type": "condition", "condition": "has_target" },
+        { "id": "target-near", "type": "condition", "condition": "target_in_attack_range" },
+        { "id": "attack-cooldown", "type": "cooldown", "seconds": 1.35, "children": ["attack"] },
+        { "id": "attack", "type": "action", "action": "melee_attack" },
+        { "id": "chase-sequence", "type": "sequence", "children": ["has-target", "target-visible", "chase"] },
+        { "id": "target-visible", "type": "condition", "condition": "can_see_target" },
+        { "id": "chase", "type": "action", "action": "follow_target" },
+        { "id": "acquire", "type": "action", "action": "acquire_hostile" },
+        { "id": "patrol", "type": "action", "action": "patrol",
+          "parameters": { "intervalSeconds": 2.4, "idleChance": 0.2 } }
+      ]
+    },
+    {
+      "id": "vf:mossling_behavior",
+      "rootNodeId": "root",
+      "nodes": [
+        { "id": "root", "type": "selector", "children": ["flee", "graze"] },
+        { "id": "flee", "type": "sequence", "children": ["player-visible", "flee-player"] },
+        { "id": "player-visible", "type": "condition", "condition": "can_see_player" },
+        { "id": "flee-player", "type": "action", "action": "flee_player" },
+        { "id": "graze", "type": "action", "action": "random_stroll",
+          "parameters": { "intervalSeconds": 4.2, "idleChance": 0.55 } }
+      ]
+    }
+  ]
+}

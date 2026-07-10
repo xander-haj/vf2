@@ -4,8 +4,8 @@
  */
 
 import { BlockId } from "../game/block-types";
-import { BASE_TERRAIN_HEIGHT } from "../game/game-config";
 import type { SeededNoise } from "./noise";
+import type { TerrainProfile } from "./world-profile";
 
 /** TerrainBiome names every material profile that can shape an otherwise unchanged terrain column. */
 export enum TerrainBiome {
@@ -35,7 +35,10 @@ const TERRACOTTA_BANDS: readonly BlockId[] = [
 
 /** TerrainBiomeSampler derives broad climate regions from continuous noise rather than chunk boundaries. */
 export class TerrainBiomeSampler {
-  public constructor(private readonly noise: SeededNoise) {}
+  public constructor(
+    private readonly noise: SeededNoise,
+    private readonly terrain: TerrainProfile,
+  ) {}
 
   /** Selects a stable biome from climate, moisture, variation, and the already-computed surface height. */
   public getBiome(worldX: number, worldZ: number, surface: number): TerrainBiome {
@@ -44,7 +47,7 @@ export class TerrainBiomeSampler {
     const variation = this.noise.fractal2d((worldX - 900) / 58, (worldZ + 700) / 58, 2);
 
     // Elevation takes priority because exposed peaks should remain visibly mountainous in every climate region.
-    if (surface >= BASE_TERRAIN_HEIGHT + 10) {
+    if (surface >= this.terrain.baseHeight + 10) {
       return TerrainBiome.Mountains;
     }
     // Small isolated regions provide rare mycelium terrain without making it a dominant surface material.
@@ -106,7 +109,7 @@ export class TerrainBiomeSampler {
         if (depth <= 2) return BlockId.Dirt;
         return depth <= 4 ? BlockId.Clay : null;
       case TerrainBiome.Mountains:
-        if (depth === 0) return surface >= BASE_TERRAIN_HEIGHT + 14 ? BlockId.Snow : BlockId.Stone;
+        if (depth === 0) return surface >= this.terrain.baseHeight + 14 ? BlockId.Snow : BlockId.Stone;
         return depth <= 2 ? BlockId.Gravel : null;
       case TerrainBiome.Plains:
         if (depth === 0) return BlockId.Grass;

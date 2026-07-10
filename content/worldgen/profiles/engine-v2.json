@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "vf:engine_v2",
+  "generatorVersion": 2,
+  "contentRegistryVersion": 2,
+  "dimensions": { "chunkSize": 16, "worldHeight": 128, "sectionHeight": 16 },
+  "renderDistance": 3,
+  "seaLevel": 48,
+  "lavaLevel": 9,
+  "biomeSetId": "vf:engine_biomes",
+  "featureSetId": "vf:engine_features",
+  "structureSetId": "vf:engine_structures",
+  "streams": {
+    "climate": 2003,
+    "terrain": 2011,
+    "caves": 2027,
+    "aquifers": 2029,
+    "surface": 2039,
+    "geology": 2053,
+    "structures": 2063,
+    "features": 2069,
+    "spawning": 2081
+  },
+  "climate": {
+    "temperatureScale": 320,
+    "humidityScale": 280,
+    "weirdnessScale": 170,
+    "octaves": 4
+  },
+  "terrain": {
+    "baseHeight": 50,
+    "minimumHeight": 3,
+    "topMargin": 8,
+    "continentScale": 520,
+    "erosionScale": 240,
+    "ridgeScale": 170,
+    "detailScale": 42,
+    "densityScale": 34,
+    "overhangStrength": 0.34,
+    "verticalGradient": 0.075
+  },
+  "caves": {
+    "minimumY": 5,
+    "maximumY": 86,
+    "cheeseScale": 34,
+    "cheeseThreshold": 0.7,
+    "tunnelScale": 19,
+    "tunnelThreshold": 0.055,
+    "surfaceClearance": 5
+  },
+  "aquifers": { "enabled": true, "waterTableVariation": 5, "pressureScale": 38, "lavaChance": 0.12 },
+  "bedrock": { "maximumHeight": 3, "blockId": "vf:bedrock" }
+}

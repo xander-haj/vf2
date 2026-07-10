@@ -21,8 +21,15 @@
     <!-- The HUD remains HTML so status and control information stay crisp at every resolution. -->
     <div id="hud" aria-live="polite">
       <div id="crosshair" aria-hidden="true"></div>
+      <div id="health" role="status" aria-label="Player health"></div>
+      <div id="entity-status" role="status"></div>
       <div id="target-label"></div>
       <div id="hotbar" role="toolbar" aria-label="Block selection"></div>
+      <section id="dialogue-panel" aria-label="Conversation" aria-hidden="true">
+        <p id="dialogue-text"></p>
+        <div id="dialogue-choices"></div>
+        <div id="trade-offers"></div>
+      </section>
     </div>
 
     <!-- Touch controls stay separate from the canvas so simultaneous fingers have explicit ownership. -->
@@ -73,7 +80,23 @@
 
           <label for="joystick-vertical-setting">
             Vertical placement
-            <input id="joystick-vertical-setting" type="range" min="0.16" max="0.58" step="0.01" />
+            <input id="joystick-vertical-setting" type="range" min="0.05" max="0.58" step="0.01" />
+          </label>
+
+          <label for="joystick-strength-setting">
+            <span class="mobile-setting-label">
+              Joystick strength
+              <output id="joystick-strength-value" for="joystick-strength-setting">100%</output>
+            </span>
+            <input id="joystick-strength-setting" type="range" min="0.4" max="1.6" step="0.05" />
+          </label>
+
+          <label for="camera-swipe-strength-setting">
+            <span class="mobile-setting-label">
+              Camera swipe strength
+              <output id="camera-swipe-strength-value" for="camera-swipe-strength-setting">100%</output>
+            </span>
+            <input id="camera-swipe-strength-setting" type="range" min="0.4" max="2" step="0.05" />
           </label>
 
           <p id="mobile-settings-status" aria-live="polite">Changes preview and save automatically.</p>

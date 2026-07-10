@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "animationSets": [
+    {
+      "id": "vf:humanoid_motion",
+      "states": [
+        { "id": "idle", "speedMaximum": 0.08, "cycleSeconds": 2.4, "legSwingDegrees": 2,
+          "armSwingDegrees": 3 },
+        { "id": "walk", "speedMaximum": 2.4, "cycleSeconds": 0.82, "legSwingDegrees": 28,
+          "armSwingDegrees": 24 },
+        { "id": "run", "speedMaximum": 10, "cycleSeconds": 0.48, "legSwingDegrees": 42,
+          "armSwingDegrees": 38 }
+      ],
+      "attack": { "durationSeconds": 0.55, "armSwingDegrees": 75 },
+      "hurt": { "durationSeconds": 0.3, "bodyTiltDegrees": 9 }
+    },
+    {
+      "id": "vf:brute_motion",
+      "states": [
+        { "id": "idle", "speedMaximum": 0.08, "cycleSeconds": 2.8, "legSwingDegrees": 1,
+          "armSwingDegrees": 4 },
+        { "id": "walk", "speedMaximum": 2.2, "cycleSeconds": 0.9, "legSwingDegrees": 24,
+          "armSwingDegrees": 30 },
+        { "id": "run", "speedMaximum": 10, "cycleSeconds": 0.52, "legSwingDegrees": 38,
+          "armSwingDegrees": 46 }
+      ],
+      "attack": { "durationSeconds": 0.7, "armSwingDegrees": 95 },
+      "hurt": { "durationSeconds": 0.36, "bodyTiltDegrees": 12 }
+    },
+    {
+      "id": "vf:mossling_motion",
+      "states": [
+        { "id": "idle", "speedMaximum": 0.08, "cycleSeconds": 2.1, "legSwingDegrees": 1,
+          "armSwingDegrees": 0 },
+        { "id": "walk", "speedMaximum": 1.8, "cycleSeconds": 0.72, "legSwingDegrees": 18,
+          "armSwingDegrees": 0 },
+        { "id": "run", "speedMaximum": 10, "cycleSeconds": 0.4, "legSwingDegrees": 32,
+          "armSwingDegrees": 0 }
+      ],
+      "attack": { "durationSeconds": 0.4, "armSwingDegrees": 0 },
+      "hurt": { "durationSeconds": 0.28, "bodyTiltDegrees": 8 }
+    }
+  ]
+}

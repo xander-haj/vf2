@@ -138,6 +138,9 @@ function paintTexture(
   tileY: number,
 ): void {
   const recipe = BLOCK_TEXTURE_RECIPES[textureName];
+  if (recipe === undefined) {
+    throw new Error(`Texture atlas recipe is missing for validated tile ${textureName}.`);
+  }
   const originX = tileX * TILE_SIZE;
   const originY = tileY * TILE_SIZE;
   paintNoise(context, originX, originY, recipe);

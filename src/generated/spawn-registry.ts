@@ -1,0 +1,18 @@
+/**
+ * Generated from canonical spawn rules with weights interpreted as per-chunk probabilities.
+ * Rules are deterministic inputs; the runtime derives all random decisions from world coordinates and seed streams.
+ */
+
+/** ENTITY_SPAWN_RULES controls environmental eligibility and population caps. */
+export const ENTITY_SPAWN_RULES = [
+  { id: "vf:cartographer_spawn", salt: 5003, entityId: "vf:cartographer",
+    biomes: ["vf:plains", "vf:forest"],
+    minY: 49, maxY: 110, lightRange: [0.55, 1], groupSize: [1, 1], weight: 0.08, cap: 4,
+    conditions: ["on_surface", "requires_sky"] },
+  { id: "vf:stoneback_spawn", salt: 5011, entityId: "vf:stoneback",
+    biomes: ["vf:mountains", "vf:badlands", "vf:taiga"], minY: 8, maxY: 116,
+    lightRange: [0, 1], groupSize: [1, 3], weight: 0.2, cap: 18, conditions: ["on_surface"] },
+  { id: "vf:mossling_spawn", salt: 5021, entityId: "vf:mossling",
+    biomes: ["vf:forest", "vf:plains", "vf:taiga"], minY: 49, maxY: 112,
+    lightRange: [0, 1], groupSize: [2, 5], weight: 0.28, cap: 24, conditions: ["on_surface"] },
+] as const;

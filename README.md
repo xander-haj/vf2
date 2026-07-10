@@ -7,16 +7,19 @@ Minecraft or Mojang assets.
 
 ## Features
 
-- Deterministic biome surfaces, stone families, bedrock, depth-aware ores, and cross-chunk trees
-- Chunked 16 × 64 × 16 world storage with a five-by-five active render area
-- Exposed-face mesh generation to avoid rendering hidden cube surfaces
+- Versioned 128-block engine-v2 worlds with climate biomes, density terrain, caves, aquifers, and structures
+- Five editable ore shapes, cross-chunk decorations, per-feature salts, and deterministic pass explanations
+- Chunked worlds split into independently meshed 16-block-high vertical sections
+- Exposed-face mesh generation that remeshes only sections affected by block edits
 - Original runtime-generated pixel textures packed into one texture atlas
 - Pointer-lock first-person controls with gravity, jumping, sprinting, and voxel collision
 - Multi-touch movement, camera, breaking, placement, jumping, sprinting, and persistent joystick settings
 - Grid-accurate block targeting with a visible selection outline
 - Grass, dirt, stone, sand, wood, leaves, and cobblestone placement
-- Sparse browser storage that saves only the seed and player edits
-- Responsive pause menu, fullscreen control, crosshair, selected-block label, and tappable hotbar
+- NPC, hostile, and passive actors with factions, behavior graphs, navigation, combat, loot, dialogue, and trades
+- Versioned storage for generation identity, edits, persistent actors, and collected entity loot
+- A local GUI engine editor with production previews, undo/redo, validation, and atomic code generation
+- Opaque and translucent mesh passes for generated Water and Lava blocks
 
 ## Requirements
 
@@ -63,9 +66,44 @@ available to other devices on the network.
 
 To stop the development server, return to the terminal and press `Ctrl+C`.
 
+## Run the local engine editor
+
+Start the authenticated loopback-only editor:
+
+```bash
+npm run editor
+```
+
+The editor loads canonical files under `content/` and previews unsaved changes through the production world,
+meshing, entity, animation, behavior, and combat systems. Saving validates the complete snapshot and atomically
+regenerates allowlisted files under `src/generated/`. The bridge exists only in explicit editor mode and is excluded
+from the production game.
+
+Select **Guide** immediately to the left of the **Build** workspace for the complete editing, preview, world
+generation, entity testing, behavior graph, validation, saving, and keyboard-control workflow. Hover or focus editor
+controls for context-specific usage tooltips.
+
+The editor library is organized into **Visual objects** and **Rules & data**. A cube icon guarantees a graphical
+preview; page and logic icons intentionally open settings without fabricating a 3D object. Procedural creature models
+use a mouse-first block builder with shape and color trays, direct grid placement, piece selection, movement, layers,
+rotation, copying, painting, and erasing. All canonical fields remain available in **Advanced details**.
+
+World-object selections are focused rather than repeating the same seed chunk. Biomes render production terrain with
+the selected biome forced and display its top, filler, shore, and underwater materials. Ores, decorations, and
+structures render isolated production-generated shapes using their registered block textures. Frozen legacy entries
+use isolated material-accurate cards. Missing block references produce an explicit preview error instead of silently
+substituting another asset.
+
+Use the standalone content checks when reviewing authored changes:
+
+```bash
+npm run content:validate
+npm run test:content
+```
+
 ## Create a production build
 
-Run the strict TypeScript check followed by Vite's optimized production build:
+Run deterministic content generation, the strict TypeScript check, and Vite's optimized production build:
 
 ```bash
 npm run build
@@ -150,14 +188,14 @@ run is canceled so it cannot overwrite the newer site.
 | Move | `W`, `A`, `S`, `D` |
 | Jump | `Space` |
 | Sprint | Left or right `Shift` |
-| Break selected block | Left mouse button |
-| Place selected material | Right mouse button |
+| Attack entity / break block | Left mouse button |
+| Talk to entity / place block | Right mouse button |
 | Select hotbar slot | Number keys `1` through `7` |
 | Cycle hotbar | Mouse wheel |
 | Pause or release cursor | `Esc` |
 
-Block placement is rejected when the new block would intersect the player's body. Blocks can be edited up to six
-cells from the camera.
+Block placement is rejected when the new block would intersect the player or a live entity. Blocks and entities can
+be targeted up to six cells from the camera.
 
 ## Mobile controls
 
@@ -175,14 +213,26 @@ Touch-oriented devices are detected through pointer capabilities rather than use
 | Enter or exit fullscreen | Top-right corner icon |
 | Adjust joystick | Settings icon above the joystick |
 
-The settings panel changes thumbstick size, horizontal placement, and vertical placement with a live preview. Valid
-settings are saved under `voxel-frontier.mobile-controls.v1`. The reset control restores the documented defaults.
+The settings panel changes thumbstick size, horizontal placement, vertical placement, joystick strength, and camera
+swipe strength with a live preview. Lower vertical placement can move the joystick close to the device safe area
+without clipping it. Valid settings are saved under `voxel-frontier.mobile-controls.v1`; older v1 preferences retain
+their saved placement and receive neutral strength defaults. The reset control restores the documented defaults.
 Fullscreen uses the browser's standard Fullscreen API and remains disabled when that browser does not expose it.
 
 ## Saved worlds
 
-The game saves automatically under the browser-local key `voxel-frontier.world.v1`. Only the numeric world seed and
-cells changed by the player are stored; untouched terrain is regenerated from the seed whenever a chunk loads.
+Current worlds save automatically under `voxel-frontier.world.v3`. The payload contains generation identity, seed,
+changed cells, versioned persistent entity components, death tombstones, and collected entity-loot inventory.
+Untouched terrain is still regenerated deterministically whenever a chunk loads.
+
+The original `voxel-frontier.world.v1` and generation-aware `voxel-frontier.world.v2` keys are read-only migration
+sources. A valid older save is copied to v3 without overwriting or deleting its rollback entry. Version-1 worlds keep
+the frozen `vf:legacy_v1` identity; newly created worlds use `vf:engine_v2`. Invalid current data blocks further
+writes so it cannot be silently replaced by a fresh world.
+
+The seed alone is not the complete generation contract. Reproducing untouched terrain also requires the saved world
+profile, generator version, and content-registry version. This release supports frozen `vf:legacy_v1` worlds and the
+data-driven `vf:engine_v2` density pipeline.
 
 Browser storage belongs to the current origin. Development and preview addresses with different hostnames or ports
 may therefore have separate saved worlds. Clearing site data deletes the saved world. Private browsing modes may
@@ -194,22 +244,28 @@ disable persistence; the game continues in memory and displays a warning when sa
 .
 ├── .github/workflows/
 │   └── deploy-pages.yml  Locked build and GitHub Pages deployment workflow
+├── content/              Canonical block, worldgen, entity, behavior, loot, dialogue, and trade data
+├── editor.html           Local-only GUI engine editor entry point
+├── tools/                Deterministic content compiler and authenticated loopback editor bridge
 ├── vite.config.ts        Location-independent production asset configuration
 └── src/
+    ├── editor/           GUI inspectors, production previews, and isolated runtime test scenes
+    ├── engine/           World-generation and generic entity simulation systems
     ├── game/             Orchestration, configuration, blocks, and procedural textures
+    ├── generated/        Typed registries generated from canonical content
     ├── interaction/      Voxel targeting, selection highlighting, breaking, and placement
     ├── player/           Browser input, first-person movement, and collision resolution
-    ├── storage/          Validated sparse local-storage persistence
+    ├── storage/          Versioned save validation, migration, and sparse persistence
     ├── ui/               DOM hotbar, pause state, mobile input, settings, and fullscreen presentation
-    ├── world/            Noise, biomes, geology, chunks, meshing, streaming, and block edits
+    ├── world/            Profiles, noise, generation, sectioned chunks, meshing, streaming, and edits
     ├── main.ts           Browser entry point and safe startup error boundary
     ├── styles.css        Desktop game and interface styling
     └── mobile-controls.css  Touch-control and mobile-settings styling
 ```
 
-The render loop in `src/game/game.ts` updates chunk availability before player physics, processes selection and world
-edits, then renders the current scene. The `World` class is the shared block-query boundary used by collision,
-interaction, generation, persistence, and mesh construction.
+The render loop in `src/game/game.ts` updates chunk availability, player physics, bounded entity AI, combat,
+interaction, HUD state, and rendering in dependency order. `World` is the shared block-query boundary used by
+collision, spawning, perception, generation, persistence, and mesh construction.
 
 ## Troubleshooting
 
@@ -246,10 +302,10 @@ beside the hotbar indicates that the browser rejected the most recent save.
 ### Performance is low
 
 Close GPU-heavy tabs, enable hardware acceleration, and reduce browser zoom or display resolution. The renderer caps
-device pixel density and the source keeps a bounded five-by-five chunk area loaded.
+device pixel density, vertical sections bound remeshing work, and entity AI sleeps outside its active radius.
 
 ## Current scope
 
-Voxel Frontier is a complete creative sandbox release, not a byte-for-byte recreation of Minecraft. Crafting,
-survival health, mobs, vegetation expansion, structures, water and lava simulation, Nether and End terrain,
-multiplayer, accounts, and copied proprietary content are intentionally outside this release.
+Voxel Frontier is an original voxel engine and creative sandbox, not a byte-for-byte recreation of Minecraft.
+Crafting, equipment, survival hunger, dynamic fluid flow, block lighting, particles, audio, additional dimensions,
+multiplayer, accounts, and copied proprietary content remain separate Phase-G-or-later systems.

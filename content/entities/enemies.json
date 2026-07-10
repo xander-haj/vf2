@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "entities": [
+    {
+      "id": "vf:stoneback",
+      "definitionVersion": 1,
+      "displayName": "Stoneback",
+      "category": "hostile",
+      "factionId": "vf:stonebacks",
+      "hostileTo": ["vf:player", "vf:settlers"],
+      "persistence": "despawn",
+      "modelAssetId": "vf:stoneback_model",
+      "animationSetId": "vf:brute_motion",
+      "behaviorGraphId": "vf:stoneback_behavior",
+      "spawnRuleId": "vf:stoneback_spawn",
+      "maxHealth": 32,
+      "dimensions": { "width": 1.15, "height": 1.8 },
+      "speed": 3.6,
+      "attack": { "damage": 5, "range": 1.7, "cooldownSeconds": 1.35 },
+      "perception": { "range": 18, "fieldOfViewDegrees": 125, "memorySeconds": 8 },
+      "lootTableId": "vf:stoneback_loot"
+    }
+  ]
+}

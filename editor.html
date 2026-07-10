@@ -1,0 +1,235 @@
+<!doctype html>
+<!-- Voxel Frontier's local-only authoring shell. Source writes are provided by the guarded Vite bridge. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101820" />
+    <meta name="description" content="Local content and world editor for Voxel Frontier." />
+    <title>Voxel Frontier Engine</title>
+  </head>
+  <body>
+    <div id="editor-app" class="editor-shell">
+      <header class="editor-toolbar">
+        <div class="editor-brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div><strong>Voxel Frontier</strong><span>Engine Editor</span></div>
+        </div>
+        <nav class="workspace-tabs" aria-label="Editor workspaces">
+          <button id="editor-guide" class="guide-tab" type="button" aria-haspopup="dialog"
+            aria-controls="editor-guide-dialog" title="Open the complete editor guide and workflow reference">
+            Guide
+          </button>
+          <button type="button" data-workspace="content" class="active"
+            title="Browse every visual object, rule, and setting">Build</button>
+          <button type="button" data-workspace="worldgen"
+            title="Build terrain, biomes, features, structures, and generation rules">World</button>
+          <button type="button" data-workspace="entities"
+            title="Build NPCs, enemies, passive actors, models, animations, and rewards">Creatures</button>
+          <button type="button" data-workspace="behaviors"
+            title="Build safe behavior logic and inspect live blackboards">Logic</button>
+        </nav>
+        <div class="toolbar-actions">
+          <span id="editor-revision">Not connected</span>
+          <button id="editor-undo" type="button" title="Nothing to undo" disabled>Undo</button>
+          <button id="editor-redo" type="button" title="Nothing to redo" disabled>Redo</button>
+          <button id="editor-save" class="primary" type="button" title="Make a content change before saving"
+            disabled>Save changes</button>
+        </div>
+      </header>
+
+      <aside class="editor-browser-panel">
+        <div class="panel-heading"><h1>Things to build</h1><span id="content-count">0</span></div>
+        <label class="search-field" for="content-search">
+          <span>Search</span><input id="content-search" type="search" autocomplete="off"
+            placeholder="Find something…"
+            title="Find something by its friendly name, category, type, or source file" />
+        </label>
+        <div id="content-browser" class="content-browser" role="tree" aria-label="Project content"></div>
+      </aside>
+
+      <main class="editor-stage">
+        <div class="viewport-toolbar">
+          <strong id="viewport-title">Project preview</strong>
+          <span id="viewport-help">Click to select or place · drag to orbit · wheel to zoom</span>
+          <button id="viewport-reset" type="button"
+            title="Restore the default camera angle and zoom for this preview">Reset view</button>
+        </div>
+        <canvas id="editor-viewport" aria-label="Live production preview"></canvas>
+        <div id="viewport-empty" class="viewport-empty">Select content to preview it.</div>
+      </main>
+
+      <aside class="editor-inspector-panel">
+        <div class="panel-heading"><h2 id="inspector-title">Tools & settings</h2></div>
+        <div id="context-panel" class="context-panel"></div>
+        <form id="editor-inspector" class="editor-inspector"></form>
+      </aside>
+
+      <section class="editor-bottom-panel" aria-label="Validation output">
+        <div class="bottom-tabs">
+          <button id="validation-tab" type="button" class="active"
+            title="Show compiler errors and warnings for the complete working snapshot">
+            Checks <span id="error-count">0</span>
+          </button>
+          <button id="changes-tab" type="button" title="Review every field changed since the last load or save">
+            Unsaved changes <span id="change-count">0</span>
+          </button>
+          <span id="editor-status" role="status" aria-live="polite">Connecting to local editor bridge…</span>
+        </div>
+        <div id="validation-panel" class="validation-panel"></div>
+      </section>
+    </div>
+    <dialog id="editor-guide-dialog" class="editor-guide-dialog" aria-labelledby="editor-guide-title">
+      <article class="editor-guide-card">
+        <header class="editor-guide-header">
+          <div>
+            <span class="guide-kicker">Documentation</span>
+            <h1 id="editor-guide-title">Voxel Frontier Editor Guide</h1>
+            <p>Author canonical content, test it through production systems, and safely generate game code.</p>
+          </div>
+          <button id="editor-guide-close" type="button" aria-label="Close guide">
+            ×
+          </button>
+        </header>
+        <nav class="editor-guide-index" aria-label="Guide sections">
+          <a href="#guide-start">Start here</a>
+          <a href="#guide-layout">Layout</a>
+          <a href="#guide-builder">Block builder</a>
+          <a href="#guide-worldgen">World generation</a>
+          <a href="#guide-entities">Entities</a>
+          <a href="#guide-behaviors">Behaviors</a>
+          <a href="#guide-saving">Validation and saving</a>
+          <a href="#guide-shortcuts">Controls</a>
+        </nav>
+        <div class="editor-guide-content">
+          <section id="guide-start">
+            <h2>Start here: make and save one change</h2>
+            <ol>
+              <li>Choose Build, World, Creatures, or Logic, then pick something from the left library.</li>
+              <li>A cube icon means the item always has a picture. Page and logic icons are settings only.</li>
+              <li>Edit its fields in the right Inspector. Changes immediately update the center preview.</li>
+              <li>Open <strong>Unsaved changes</strong> at the bottom to review exactly what changed.</li>
+              <li>Resolve every item marked as an error in <strong>Checks</strong>.</li>
+              <li>Select <strong>Save changes</strong> to validate the full snapshot and regenerate typed code.</li>
+            </ol>
+            <p class="guide-note">Unsaved edits live only in memory. The game source changes only after a successful,
+              revision-checked save transaction.</p>
+          </section>
+
+          <section id="guide-layout">
+            <h2>Understand the layout</h2>
+            <dl>
+              <dt>Workspace tabs</dt>
+              <dd>Filter the project into Build, World, Creatures, or Logic without removing any content.</dd>
+              <dt>Left browser</dt>
+              <dd>Groups friendly names into visual objects and rules or data. Selecting an entry never edits it.</dd>
+              <dt>Center viewport</dt>
+              <dd>Uses production textures, meshing, generation, models, animation, and simulation code.</dd>
+              <dt>Right Inspector</dt>
+              <dd>Shows large visual tools first. All raw fields remain inside the Advanced details drawer.</dd>
+              <dt>Bottom panel</dt>
+              <dd>Shows whole-project compiler diagnostics or a field-level review of unsaved changes.</dd>
+            </dl>
+          </section>
+
+          <section id="guide-builder">
+            <h2>Build a model from blocks</h2>
+            <ol>
+              <li>Open <strong>Build</strong>, find <strong>Visual objects</strong>, and choose a model.</li>
+              <li>Pick a cube, wide block, tall block, long block, or slab, then pick a color.</li>
+              <li>Click an empty grid spot in the picture to place it, or select <strong>Add piece</strong>.</li>
+              <li>Click any existing piece in the picture or piece tray to select it.</li>
+              <li>Use the large arrows, Up, Down, Rotate, Copy, Paint, or Erase controls.</li>
+              <li>Change the active layer with minus and plus. Drag to orbit and use the wheel to zoom.</li>
+            </ol>
+            <p class="guide-note">Every builder action is a normal reversible editor command. Undo, redo, checks,
+              change review, and atomic saving work exactly as they do for advanced fields.</p>
+          </section>
+
+          <section id="guide-worldgen">
+            <h2>World generation workflow</h2>
+            <ul>
+              <li><strong>World seed</strong> changes only the preview world and is not saved as content.</li>
+              <li><strong>Terrain and feature salts</strong> are persisted compatibility data that isolate random
+                streams.</li>
+              <li><strong>Explain passes</strong> reports climate, density, cave carving, and the exact block after
+                each pass.</li>
+              <li><strong>Compare saved profile</strong> renders edited and generated profiles with the same seed.</li>
+              <li><strong>Verify deterministic generation</strong> checks golden coordinates, request order, and
+                pass replay.</li>
+              <li>Selecting one biome forces that biome into the preview and shows its real surface-material
+                palette.</li>
+              <li>Selecting one ore, decoration, or structure isolates its production shape and registered blocks.</li>
+            </ul>
+            <p class="guide-warning">The legacy-v1 profile is intentionally read-only. Saving engine-v2 generation
+              changes requires typing <strong>MIGRATE</strong> because untouched terrain may change for existing
+              seeds.</p>
+          </section>
+
+          <section id="guide-entities">
+            <h2>Entity and asset workflow</h2>
+            <ol>
+              <li>Build a procedural model from colored blocks or connect a validated local GLB model.</li>
+              <li>Edit an entity to connect its model, animation set, faction, behavior, spawn, loot, and interaction
+                data.</li>
+              <li>Use <strong>Spawn selected</strong> for one actor or <strong>Run spawn rules</strong> for
+                deterministic populations.</li>
+              <li>Use combat and damage controls while reading the live detached blackboard below them.</li>
+            </ol>
+            <p class="guide-note">The isolated test scene uses memory-only persistence. It cannot modify the playable
+              world's local-storage save.</p>
+          </section>
+
+          <section id="guide-behaviors">
+            <h2>Behavior graph workflow</h2>
+            <p>Graphs are safe typed data rather than executable scripts. Selectors try alternatives, sequences require
+              ordered success, conditions inspect runtime facts, actions produce intent, cooldowns limit frequency, and
+              repeats bound repeated work.</p>
+            <ol>
+              <li>Select a graph and edit node IDs, types, children, conditions, actions, and parameters in the
+                Inspector.</li>
+              <li>Keep every node reachable from the root and avoid cycles; validation reports the exact broken
+                path.</li>
+              <li>Run the linked entity, move the test player into range, and inspect target, intent, state, and
+                timers.</li>
+            </ol>
+          </section>
+
+          <section id="guide-saving">
+            <h2>Validation, generated code, and saving</h2>
+            <p>The editor validates versions, numeric ranges, IDs, references, asset ownership, graph structure,
+              generation budgets, and compatibility rules across the complete project—not only the selected file.</p>
+            <p>A successful save checks that the disk revision still matches, stages canonical JSON and generated
+              TypeScript together, and atomically commits the transaction. If another program changed content, reload
+              the editor before saving so those changes are never overwritten.</p>
+            <p class="guide-warning">Do not hand-edit files under <code>src/generated/</code>. They are deterministic
+              compiler output and will be replaced by the next successful generation.</p>
+          </section>
+
+          <section id="guide-shortcuts">
+            <h2>Preview controls and keyboard shortcuts</h2>
+            <table>
+              <tbody>
+                <tr><th scope="row">Select or place</th><td>Click inside a block-model preview.</td></tr>
+                <tr><th scope="row">Orbit preview</th><td>Drag inside the center viewport.</td></tr>
+                <tr><th scope="row">Zoom preview</th><td>Use the mouse wheel over the viewport.</td></tr>
+                <tr><th scope="row">Save</th><td><kbd>Ctrl</kbd>/<kbd>Command</kbd> + <kbd>S</kbd></td></tr>
+                <tr><th scope="row">Undo</th><td><kbd>Ctrl</kbd>/<kbd>Command</kbd> + <kbd>Z</kbd></td></tr>
+                <tr>
+                  <th scope="row">Redo</th>
+                  <td><kbd>Ctrl</kbd>/<kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td>
+                </tr>
+                <tr><th scope="row">Close this guide</th><td><kbd>Escape</kbd> or the close button.</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </article>
+    </dialog>
+    <div id="editor-tooltip" class="editor-tooltip" role="tooltip" hidden></div>
+    <section id="editor-fatal" class="editor-fatal" role="alert" hidden>
+      <div><h1>Editor unavailable</h1><p id="editor-fatal-message"></p></div>
+    </section>
+    <script type="module" src="/src/editor/editor-main.ts"></script>
+  </body>
+</html>

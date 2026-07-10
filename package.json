@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "content:validate": "node tools/content-compiler/validate-content.mjs",
+    "content:generate": "node tools/content-compiler/generate-content.mjs",
+    "test:content": "node --test tools/content-compiler/content-compiler.test.mjs",
+    "editor": "vite --mode editor --open /editor.html",
+    "build": "npm run content:generate && tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

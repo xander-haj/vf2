@@ -247,9 +247,21 @@ export class MobileControls {
     return this.enabled && this.active;
   }
 
-  /** Returns the current analog joystick vector without consuming held movement. */
+  /** Returns held movement scaled by the live joystick response setting and clamped to valid axes. */
   public getMovement(): MobileMovement {
-    return { forward: this.joystickForward, right: this.joystickRight };
+    const strength = this.settings.getJoystickStrength();
+    const magnitude = Math.hypot(this.joystickForward, this.joystickRight);
+    // A neutral stick cannot be normalized, and should remain exactly neutral regardless of strength.
+    if (magnitude === 0) {
+      return { forward: 0, right: 0 };
+    }
+    // Radial scaling preserves direction while higher strengths reach full movement with less thumb travel.
+    const scaledMagnitude = Math.min(1, magnitude * strength);
+    const scale = scaledMagnitude / magnitude;
+    return {
+      forward: this.joystickForward * scale,
+      right: this.joystickRight * scale,
+    };
   }
 
   /** Reports whether the captured jump control remains held. */
@@ -262,9 +274,10 @@ export class MobileControls {
     return this.sprintPointerId !== null;
   }
 
-  /** Returns and resets all camera movement accumulated since the previous frame. */
+  /** Returns camera movement scaled by the live swipe response setting, then resets the accumulator. */
   public consumeLookDelta(): MobileLookDelta {
-    const delta = { x: this.lookX, y: this.lookY };
+    const strength = this.settings.getCameraSwipeStrength();
+    const delta = { x: this.lookX * strength, y: this.lookY * strength };
     this.lookX = 0;
     this.lookY = 0;
     return delta;

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "tradeTables": [
+    {
+      "id": "vf:cartographer_trades",
+      "offers": [
+        { "costBlockId": "vf:emerald_ore", "costCount": 1, "resultBlockId": "vf:stone",
+          "resultCount": 12, "maxUses": 8 },
+        { "costBlockId": "vf:emerald_ore", "costCount": 1, "resultBlockId": "vf:wood",
+          "resultCount": 8, "maxUses": 6 },
+        { "costBlockId": "vf:emerald_ore", "costCount": 2, "resultBlockId": "vf:packed_ice",
+          "resultCount": 6, "maxUses": 4 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "vf:engine_structures",
+  "structures": [
+    { "id": "vf:frontier_well", "salt": 4001, "kind": "well", "spacing": 18, "separation": 7,
+      "chance": 0.44,
+      "biomeTags": ["temperate", "settled"], "foundationBlockId": "vf:cobblestone",
+      "wallBlockId": "vf:stone", "accentBlockId": "vf:calcite" },
+    { "id": "vf:traveler_shelter", "salt": 4007, "kind": "ruin", "spacing": 31, "separation": 12,
+      "chance": 0.32, "biomeTags": ["temperate", "forest"], "foundationBlockId": "vf:cobblestone",
+      "wallBlockId": "vf:wood", "accentBlockId": "vf:leaves" }
+  ]
+}

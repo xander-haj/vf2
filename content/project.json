@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": 2,
+  "namespace": "vf",
+  "displayName": "Voxel Frontier",
+  "hotbar": [
+    "vf:grass",
+    "vf:dirt",
+    "vf:stone",
+    "vf:sand",
+    "vf:wood",
+    "vf:leaves",
+    "vf:cobblestone"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "entities": [
+    {
+      "id": "vf:cartographer",
+      "definitionVersion": 1,
+      "displayName": "Frontier Cartographer",
+      "category": "npc",
+      "factionId": "vf:settlers",
+      "hostileTo": [],
+      "persistence": "persistent",
+      "modelAssetId": "vf:cartographer_model",
+      "animationSetId": "vf:humanoid_motion",
+      "behaviorGraphId": "vf:cartographer_behavior",
+      "spawnRuleId": "vf:cartographer_spawn",
+      "maxHealth": 24,
+      "dimensions": { "width": 0.72, "height": 2.08 },
+      "speed": 1.8,
+      "attack": { "damage": 1, "range": 1.5, "cooldownSeconds": 1.2 },
+      "perception": { "range": 14, "fieldOfViewDegrees": 150, "memorySeconds": 6 },
+      "dialogueId": "vf:cartographer_dialogue",
+      "tradeTableId": "vf:cartographer_trades",
+      "lootTableId": "vf:cartographer_loot"
+    }
+  ]
+}
