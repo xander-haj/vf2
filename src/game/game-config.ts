@@ -15,6 +15,12 @@ export const RENDER_DISTANCE = 2;
 // Terrain revolves around this elevation so both low sand flats and tall hills can form.
 export const BASE_TERRAIN_HEIGHT = 25;
 
+// The lowest three rows form an irregular bedrock floor without consuming significant vertical space.
+export const BEDROCK_MAX_HEIGHT = 2;
+
+// Rock at and below this elevation uses deepslate and matching ore variants.
+export const DEEPSLATE_MAX_HEIGHT = 14;
+
 // Player dimensions approximate familiar voxel-game proportions while fitting one-block gaps correctly.
 export const PLAYER_RADIUS = 0.3;
 export const PLAYER_HEIGHT = 1.8;
@@ -29,6 +35,9 @@ export const GRAVITY = 25;
 // Mouse rotation is expressed in radians per CSS pixel of pointer movement.
 export const LOOK_SENSITIVITY = 0.0022;
 
+// Touch drags need slightly more rotation per CSS pixel because thumbs travel less distance than a mouse.
+export const TOUCH_LOOK_MULTIPLIER = 1.45;
+
 // Interaction is intentionally limited so edits feel reachable rather than remote.
 export const BLOCK_REACH = 6;
 
@@ -40,4 +49,3 @@ export const MAX_FRAME_DELTA = 0.05;
 
 // The storage schema version allows future releases to reject incompatible saved data safely.
 export const STORAGE_SCHEMA_VERSION = 1;
-

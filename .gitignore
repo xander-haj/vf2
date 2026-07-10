@@ -19,5 +19,4 @@ venv/
 .venv/
 
 /.claude/
-/[vibeguard_logs]/
 /CLAUDE.md

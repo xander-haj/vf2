@@ -3,14 +3,24 @@
  * Event ownership is centralized so game systems never attach overlapping global listeners.
  */
 
+import { TOUCH_LOOK_MULTIPLIER } from "../game/game-config";
+import { MobileControls } from "../ui/mobile-controls";
+
 /** A consumed mouse delta represents all pointer movement accumulated since the previous frame. */
 export interface MouseDelta {
   readonly x: number;
   readonly y: number;
 }
 
+/** MovementInput provides device-independent forward and right intent with analog magnitude preserved. */
+export interface MovementInput {
+  readonly forward: number;
+  readonly right: number;
+}
+
 /** InputController tracks continuous movement separately from one-shot gameplay actions. */
 export class InputController {
+  private readonly mobile: MobileControls;
   private readonly pressedKeys = new Set<string>();
   private mouseX = 0;
   private mouseY = 0;
@@ -19,7 +29,11 @@ export class InputController {
   private requestedHotbarIndex: number | null = null;
   private hotbarDelta = 0;
 
-  public constructor(private readonly canvas: HTMLCanvasElement) {
+  public constructor(
+    private readonly canvas: HTMLCanvasElement,
+    private readonly onGameplayStateChange: () => void,
+  ) {
+    this.mobile = new MobileControls();
     window.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("keyup", this.handleKeyUp);
     window.addEventListener("blur", this.handleBlur);
@@ -95,6 +109,7 @@ export class InputController {
     if (!this.isPointerLocked()) {
       this.clearTransientState();
     }
+    this.onGameplayStateChange();
   };
 
   /** Clears state that must never survive focus loss or a pause transition. */
@@ -105,10 +120,16 @@ export class InputController {
     this.primaryQueued = false;
     this.secondaryQueued = false;
     this.hotbarDelta = 0;
+    this.mobile.clearTransientState();
   }
 
-  /** Requests pointer lock and reports a concise error if browser policy rejects it. */
-  public requestPointerLock(): void {
+  /** Enters touch gameplay directly or requests pointer lock for a desktop session. */
+  public requestGameplay(): void {
+    if (this.mobile.isEnabled()) {
+      this.mobile.setActive(true);
+      this.onGameplayStateChange();
+      return;
+    }
     try {
       const request = this.canvas.requestPointerLock();
       if (request instanceof Promise) {
@@ -128,14 +149,53 @@ export class InputController {
     return document.pointerLockElement === this.canvas;
   }
 
+  /** Reports whether either the desktop pointer or explicit mobile session currently owns gameplay. */
+  public isGameplayActive(): boolean {
+    return this.isPointerLocked() || this.mobile.isActive();
+  }
+
+  /** Reports whether touch-specific controls and messaging should be presented on this device. */
+  public isMobileEnabled(): boolean {
+    return this.mobile.isEnabled();
+  }
+
   /** Reports whether a continuous keyboard control is currently held. */
   public isKeyPressed(code: string): boolean {
     return this.pressedKeys.has(code);
   }
 
+  /** Combines keyboard and joystick axes, clamping hybrid input to the normal analog range. */
+  public getMovementInput(): MovementInput {
+    const mobile = this.mobile.getMovement();
+    const forward = Number(this.isKeyPressed("KeyW")) - Number(this.isKeyPressed("KeyS")) + mobile.forward;
+    const right = Number(this.isKeyPressed("KeyD")) - Number(this.isKeyPressed("KeyA")) + mobile.right;
+    return {
+      forward: Math.max(-1, Math.min(1, forward)),
+      right: Math.max(-1, Math.min(1, right)),
+    };
+  }
+
+  /** Reports held jump intent from either the keyboard or the captured mobile action button. */
+  public isJumpPressed(): boolean {
+    return this.isKeyPressed("Space") || this.mobile.isJumpPressed();
+  }
+
+  /** Reports held sprint intent from either Shift key or the independent mobile action button. */
+  public isSprintPressed(): boolean {
+    return (
+      this.isKeyPressed("ShiftLeft") ||
+      this.isKeyPressed("ShiftRight") ||
+      this.mobile.isSprintPressed()
+    );
+  }
+
   /** Returns and resets accumulated pointer movement for one simulation frame. */
   public consumeMouseDelta(): MouseDelta {
-    const delta = { x: this.mouseX, y: this.mouseY };
+    const mobileDelta = this.mobile.consumeLookDelta();
+    const delta = {
+      x: this.mouseX + mobileDelta.x * TOUCH_LOOK_MULTIPLIER,
+      y: this.mouseY + mobileDelta.y * TOUCH_LOOK_MULTIPLIER,
+    };
     this.mouseX = 0;
     this.mouseY = 0;
     return delta;
@@ -143,14 +203,16 @@ export class InputController {
 
   /** Returns one queued breaking action and clears it to prevent unintended repeats. */
   public consumePrimaryAction(): boolean {
-    const queued = this.primaryQueued;
+    const mobileQueued = this.mobile.consumePrimaryAction();
+    const queued = this.primaryQueued || mobileQueued;
     this.primaryQueued = false;
     return queued;
   }
 
   /** Returns one queued placement action and clears it to prevent unintended repeats. */
   public consumeSecondaryAction(): boolean {
-    const queued = this.secondaryQueued;
+    const mobileQueued = this.mobile.consumeSecondaryAction();
+    const queued = this.secondaryQueued || mobileQueued;
     this.secondaryQueued = false;
     return queued;
   }
@@ -179,6 +241,6 @@ export class InputController {
     document.removeEventListener("wheel", this.handleWheel);
     document.removeEventListener("contextmenu", this.handleContextMenu);
     document.removeEventListener("pointerlockchange", this.handlePointerLockChange);
+    this.mobile.dispose();
   }
 }
-

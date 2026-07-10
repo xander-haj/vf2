@@ -31,6 +31,7 @@ export class Hud {
   public constructor(
     onPlay: () => void,
     onSelectBlock: (index: number) => void,
+    private readonly mobileMode: boolean,
   ) {
     this.playButton.addEventListener("click", onPlay);
     this.buildHotbar(onSelectBlock);
@@ -78,7 +79,8 @@ export class Hud {
   public setPaused(paused: boolean, hasEnteredWorld: boolean): void {
     this.pauseScreen.classList.toggle("visible", paused);
     this.pauseScreen.setAttribute("aria-hidden", String(!paused));
-    this.pauseMessage.textContent = hasEnteredWorld ? "World paused" : "Click to enter the world";
+    const entryVerb = this.mobileMode ? "Tap" : "Click";
+    this.pauseMessage.textContent = hasEnteredWorld ? "World paused" : `${entryVerb} to enter the world`;
     this.playButton.textContent = hasEnteredWorld ? "Resume" : "Enter world";
   }
 

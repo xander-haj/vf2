@@ -70,18 +70,18 @@ export class Game {
     });
     this.storage = new WorldStorage();
     this.world = new World(this.scene, this.material, this.atlas, this.storage);
-    this.input = new InputController(this.canvas);
+    this.input = new InputController(this.canvas, this.handleGameplayStateChange);
     this.player = new PlayerController(this.camera, this.world.findSpawn());
     this.interactor = new BlockInteractor(this.camera, this.world, this.player, this.input);
     this.hud = new Hud(
-      () => this.input.requestPointerLock(),
+      () => this.input.requestGameplay(),
       (index) => this.selectBlock(index),
+      this.input.isMobileEnabled(),
     );
     this.selectBlock(0);
     this.hud.setPaused(true, false);
 
     window.addEventListener("resize", this.handleResize);
-    document.addEventListener("pointerlockchange", this.handlePointerLockChange);
     this.handleResize();
   }
 
@@ -104,9 +104,9 @@ export class Game {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
   };
 
-  /** Mirrors browser pointer-lock state into pause UI and tracks whether the first entry occurred. */
-  private readonly handlePointerLockChange = (): void => {
-    const active = this.input.isPointerLocked();
+  /** Mirrors desktop or mobile gameplay state into pause UI and records the first successful entry. */
+  private readonly handleGameplayStateChange = (): void => {
+    const active = this.input.isGameplayActive();
     if (active) {
       this.hasEnteredWorld = true;
     }
@@ -141,7 +141,7 @@ export class Game {
     }
     const deltaSeconds = Math.min((timestamp - this.lastTimestamp) / 1000, MAX_FRAME_DELTA);
     this.lastTimestamp = timestamp;
-    const active = this.input.isPointerLocked();
+    const active = this.input.isGameplayActive();
 
     // Streaming precedes physics so collision never queries an area after its chunk should have loaded.
     if (active) {
@@ -174,7 +174,6 @@ export class Game {
     this.running = false;
     this.renderer.setAnimationLoop(null);
     window.removeEventListener("resize", this.handleResize);
-    document.removeEventListener("pointerlockchange", this.handlePointerLockChange);
     this.interactor.dispose();
     this.input.dispose();
     this.world.dispose();

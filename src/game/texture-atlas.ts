@@ -1,35 +1,18 @@
 /**
  * Generates original pixel-art block textures in memory and packs them into one GPU texture.
- * Runtime generation avoids copied game assets and keeps the repository entirely text-based.
+ * Runtime generation avoids copied game assets and supplies stable UVs for every terrain material.
  */
 
-import {
-  CanvasTexture,
-  NearestFilter,
-  NearestMipmapNearestFilter,
-  SRGBColorSpace,
-} from "three";
-import type { TextureName } from "./block-types";
+import { CanvasTexture, NearestFilter, NearestMipmapNearestFilter, SRGBColorSpace } from "three";
+import { BLOCK_TEXTURE_RECIPES, type TextureRecipe } from "./block-texture-recipes";
+import { TEXTURE_NAMES, type TextureName } from "./block-model";
 
 // Sixteen pixels per tile preserves a crisp voxel aesthetic without large image assets.
 const TILE_SIZE = 16;
 
-// Four columns fit the nine textures into a compact, power-of-two-friendly canvas width.
-const ATLAS_COLUMNS = 4;
-const ATLAS_ROWS = 4;
-
-// Tile order is shared with UV generation and must remain stable across saved worlds.
-const TEXTURE_ORDER: readonly TextureName[] = [
-  "grass-top",
-  "grass-side",
-  "dirt",
-  "stone",
-  "sand",
-  "wood-side",
-  "wood-top",
-  "leaves",
-  "cobblestone",
-];
+// A square power-of-two atlas retains efficient mipmaps while expanding automatically with the catalog.
+const ATLAS_COLUMNS = 2 ** Math.ceil(Math.log2(Math.ceil(Math.sqrt(TEXTURE_NAMES.length))));
+const ATLAS_ROWS = ATLAS_COLUMNS;
 
 /** Normalized atlas bounds describe the safe UV rectangle for one generated tile. */
 export interface AtlasUvBounds {
@@ -52,28 +35,24 @@ function pixelHash(x: number, y: number, salt: number): number {
   return (value ^ (value >>> 16)) >>> 0;
 }
 
-/** Paints noisy color flecks over a base color to give flat tiles natural variation. */
+/** Paints deterministic color flecks over a base color so flat tiles retain natural variation. */
 function paintNoise(
   context: CanvasRenderingContext2D,
-  tileX: number,
-  tileY: number,
-  baseColor: string,
-  fleckColors: readonly string[],
-  salt: number,
+  originX: number,
+  originY: number,
+  recipe: TextureRecipe,
 ): void {
-  const originX = tileX * TILE_SIZE;
-  const originY = tileY * TILE_SIZE;
-  context.fillStyle = baseColor;
+  context.fillStyle = recipe.baseColor;
   context.fillRect(originX, originY, TILE_SIZE, TILE_SIZE);
 
-  // Every pixel receives deterministic variation so page reloads reproduce the same artwork.
+  // Every pixel is considered through a stable hash so reloads reproduce identical original artwork.
   for (let y = 0; y < TILE_SIZE; y += 1) {
     for (let x = 0; x < TILE_SIZE; x += 1) {
-      const hash = pixelHash(x, y, salt);
+      const hash = pixelHash(x, y, recipe.salt);
       if (hash % 5 !== 0) {
         continue;
       }
-      const color = fleckColors[hash % fleckColors.length];
+      const color = recipe.fleckColors[hash % recipe.fleckColors.length];
       if (color !== undefined) {
         context.fillStyle = color;
         context.fillRect(originX + x, originY + y, 1, 1);
@@ -82,63 +61,87 @@ function paintNoise(
   }
 }
 
-/** Draws one named texture with visual cues appropriate to its block material. */
+/** Draws material structure over base noise using the recipe's reusable pattern category. */
+function paintPattern(
+  context: CanvasRenderingContext2D,
+  originX: number,
+  originY: number,
+  recipe: TextureRecipe,
+): void {
+  const accent = recipe.accentColor ?? recipe.fleckColors[0] ?? recipe.baseColor;
+
+  // Each case adds only the visual structure that distinguishes this family of materials.
+  switch (recipe.pattern) {
+    case "cap-side":
+      context.fillStyle = accent;
+      context.fillRect(originX, originY, TILE_SIZE, 4);
+      for (let x = 0; x < TILE_SIZE; x += 2) {
+        context.fillRect(originX + x, originY + 4, 1, 1 + (pixelHash(x, 0, recipe.salt) % 3));
+      }
+      break;
+    case "wood-side":
+      context.fillStyle = accent;
+      for (let x = 2; x < TILE_SIZE; x += 5) {
+        context.fillRect(originX + x, originY, 1, TILE_SIZE);
+      }
+      break;
+    case "wood-top":
+      context.strokeStyle = accent;
+      context.strokeRect(originX + 3.5, originY + 3.5, 9, 9);
+      context.strokeRect(originX + 6.5, originY + 6.5, 3, 3);
+      break;
+    case "cobblestone":
+      context.strokeStyle = accent;
+      context.strokeRect(originX + 1.5, originY + 1.5, 6, 5);
+      context.strokeRect(originX + 8.5, originY + 2.5, 6, 6);
+      context.strokeRect(originX + 3.5, originY + 8.5, 8, 6);
+      break;
+    case "strata":
+      context.fillStyle = accent;
+      for (let y = 3; y < TILE_SIZE; y += 5) {
+        context.fillRect(originX, originY + y, TILE_SIZE, 1);
+      }
+      break;
+    case "ice":
+      context.strokeStyle = accent;
+      context.beginPath();
+      context.moveTo(originX + 2, originY + 13);
+      context.lineTo(originX + 7, originY + 8);
+      context.lineTo(originX + 10, originY + 9);
+      context.lineTo(originX + 14, originY + 4);
+      context.stroke();
+      break;
+    case "ore":
+      context.fillStyle = accent;
+      for (let index = 0; index < 8; index += 1) {
+        const hash = pixelHash(index, recipe.salt, 487);
+        context.fillRect(originX + (hash % 14), originY + ((hash >>> 8) % 14), 2, 2);
+      }
+      break;
+    case "bedrock":
+      context.fillStyle = accent;
+      for (let index = 0; index < 10; index += 1) {
+        const hash = pixelHash(index, recipe.salt, 491);
+        context.fillRect(originX + (hash % 15), originY + ((hash >>> 8) % 15), 2, 2);
+      }
+      break;
+    case "noise":
+      break;
+  }
+}
+
+/** Paints one named tile from its complete procedural recipe. */
 function paintTexture(
   context: CanvasRenderingContext2D,
   textureName: TextureName,
   tileX: number,
   tileY: number,
 ): void {
+  const recipe = BLOCK_TEXTURE_RECIPES[textureName];
   const originX = tileX * TILE_SIZE;
   const originY = tileY * TILE_SIZE;
-
-  // Material-specific patterns distinguish block faces even when their base colors are similar.
-  switch (textureName) {
-    case "grass-top":
-      paintNoise(context, tileX, tileY, "#6fa844", ["#82b94f", "#568d37", "#91c35a"], 11);
-      break;
-    case "grass-side":
-      paintNoise(context, tileX, tileY, "#8a5a36", ["#74482d", "#9d6a42"], 23);
-      context.fillStyle = "#6fa844";
-      context.fillRect(originX, originY, TILE_SIZE, 4);
-      context.fillStyle = "#568d37";
-      for (let x = 0; x < TILE_SIZE; x += 2) {
-        context.fillRect(originX + x, originY + 4, 1, 1 + (pixelHash(x, 0, 7) % 3));
-      }
-      break;
-    case "dirt":
-      paintNoise(context, tileX, tileY, "#895b39", ["#6f452c", "#a06b42", "#7d5031"], 31);
-      break;
-    case "stone":
-      paintNoise(context, tileX, tileY, "#888b8d", ["#747779", "#9b9ea0", "#686b6d"], 43);
-      break;
-    case "sand":
-      paintNoise(context, tileX, tileY, "#d8c47e", ["#ead995", "#c5af68", "#dfcb86"], 59);
-      break;
-    case "wood-side":
-      paintNoise(context, tileX, tileY, "#8b643b", ["#76512f", "#a17a4a"], 71);
-      context.fillStyle = "#6e4a2b";
-      for (let x = 2; x < TILE_SIZE; x += 5) {
-        context.fillRect(originX + x, originY, 1, TILE_SIZE);
-      }
-      break;
-    case "wood-top":
-      paintNoise(context, tileX, tileY, "#aa7d49", ["#95673a", "#bd925b"], 83);
-      context.strokeStyle = "#79512f";
-      context.strokeRect(originX + 3.5, originY + 3.5, 9, 9);
-      context.strokeRect(originX + 6.5, originY + 6.5, 3, 3);
-      break;
-    case "leaves":
-      paintNoise(context, tileX, tileY, "#477e3a", ["#599348", "#356b30", "#6aa653"], 97);
-      break;
-    case "cobblestone":
-      paintNoise(context, tileX, tileY, "#707577", ["#5c6062", "#898d8f"], 109);
-      context.strokeStyle = "#54595b";
-      context.strokeRect(originX + 1.5, originY + 1.5, 6, 5);
-      context.strokeRect(originX + 8.5, originY + 2.5, 6, 6);
-      context.strokeRect(originX + 3.5, originY + 8.5, 8, 6);
-      break;
-  }
+  paintNoise(context, originX, originY, recipe);
+  paintPattern(context, originX, originY, recipe);
 }
 
 /** Builds the canvas texture and exposes inset UV bounds that prevent neighboring tile bleeding. */
@@ -152,8 +155,8 @@ export function createTextureAtlas(): TextureAtlas {
   }
   context.imageSmoothingEnabled = false;
 
-  // Tiles are laid out row-major so names map to stable indices and predictable UV rectangles.
-  TEXTURE_ORDER.forEach((textureName, index) => {
+  // Row-major placement ties every stable texture name to one predictable UV rectangle.
+  TEXTURE_NAMES.forEach((textureName, index) => {
     paintTexture(context, textureName, index % ATLAS_COLUMNS, Math.floor(index / ATLAS_COLUMNS));
   });
 
@@ -167,7 +170,7 @@ export function createTextureAtlas(): TextureAtlas {
   return {
     texture,
     getUvBounds(textureName: TextureName): AtlasUvBounds {
-      const index = TEXTURE_ORDER.indexOf(textureName);
+      const index = TEXTURE_NAMES.indexOf(textureName);
       if (index < 0) {
         throw new Error(`Texture atlas does not contain the requested tile: ${textureName}`);
       }
@@ -184,4 +187,3 @@ export function createTextureAtlas(): TextureAtlas {
     },
   };
 }
-

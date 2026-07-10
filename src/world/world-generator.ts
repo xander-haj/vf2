@@ -11,9 +11,11 @@ import {
 } from "../game/game-config";
 import { Chunk } from "./chunk";
 import { SeededNoise } from "./noise";
+import { TerrainBiomeSampler } from "./terrain-biomes";
+import { TerrainGeology } from "./terrain-geology";
 
-// Low terrain becomes sand, creating beach-like bands around broad valleys.
-const SAND_HEIGHT = BASE_TERRAIN_HEIGHT - 3;
+// Existing trees remain above the lowest valleys so the terrain expansion does not alter their distribution.
+const TREE_MINIMUM_SURFACE = BASE_TERRAIN_HEIGHT - 1;
 
 // Tree canopies extend two blocks from their roots, including across chunk boundaries.
 const TREE_CANOPY_RADIUS = 2;
@@ -21,9 +23,13 @@ const TREE_CANOPY_RADIUS = 2;
 /** WorldGenerator creates all unchanged blocks directly from a stable numeric seed. */
 export class WorldGenerator {
   private readonly noise: SeededNoise;
+  private readonly biomes: TerrainBiomeSampler;
+  private readonly geology: TerrainGeology;
 
   public constructor(public readonly seed: number) {
     this.noise = new SeededNoise(seed);
+    this.biomes = new TerrainBiomeSampler(this.noise);
+    this.geology = new TerrainGeology(this.noise);
   }
 
   /** Returns the terrain surface elevation for an absolute horizontal coordinate. */
@@ -36,7 +42,7 @@ export class WorldGenerator {
   /** Reports whether this surface coordinate is a deterministic tree root. */
   private hasTreeRoot(worldX: number, worldZ: number): boolean {
     const height = this.getTerrainHeight(worldX, worldZ);
-    return height > SAND_HEIGHT + 2 && this.noise.sampleUnit(worldX, worldZ, 503) > 0.982;
+    return height > TREE_MINIMUM_SURFACE && this.noise.sampleUnit(worldX, worldZ, 503) > 0.982;
   }
 
   /** Derives a stable four- or five-block trunk height from the root coordinate. */
@@ -67,7 +73,7 @@ export class WorldGenerator {
     chunk.setBlock(localX, y, localZ, blockId);
   }
 
-  /** Fills stone, soil, and a biome-appropriate surface into every column of a chunk. */
+  /** Fills biome strata, geological pockets, depth-aware ores, and bedrock into every column. */
   private generateTerrain(chunk: Chunk): void {
     const worldStartX = chunk.chunkX * CHUNK_SIZE;
     const worldStartZ = chunk.chunkZ * CHUNK_SIZE;
@@ -78,17 +84,13 @@ export class WorldGenerator {
         const worldX = worldStartX + localX;
         const worldZ = worldStartZ + localZ;
         const surface = this.getTerrainHeight(worldX, worldZ);
-        const surfaceBlock = surface <= SAND_HEIGHT ? BlockId.Sand : BlockId.Grass;
+        const biome = this.biomes.getBiome(worldX, worldZ, surface);
 
-        // Deeper layers become stone, while the upper three blocks form soil or a sand bed.
+        // Biome layers control visible ground while the shared geology supplies every deeper coordinate.
         for (let y = 0; y <= surface; y += 1) {
-          if (y === surface) {
-            chunk.setBlock(localX, y, localZ, surfaceBlock);
-          } else if (y >= surface - 3) {
-            chunk.setBlock(localX, y, localZ, surfaceBlock === BlockId.Sand ? BlockId.Sand : BlockId.Dirt);
-          } else {
-            chunk.setBlock(localX, y, localZ, BlockId.Stone);
-          }
+          const surfaceLayer = this.biomes.getSurfaceLayer(biome, surface - y, worldX, worldZ, surface);
+          const blockId = surfaceLayer ?? this.geology.getBlock(worldX, y, worldZ, biome);
+          chunk.setBlock(localX, y, localZ, blockId);
         }
       }
     }

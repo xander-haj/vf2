@@ -1,26 +1,28 @@
 # Voxel Frontier
 
-Voxel Frontier is an original single-player creative voxel sandbox for modern desktop browsers. It provides seeded
-terrain, chunk streaming, first-person movement, block collision, breaking and placement, a seven-slot hotbar, and
-automatic local world persistence. Its procedural artwork and source code do not use Minecraft or Mojang assets.
+Voxel Frontier is an original single-player creative voxel sandbox for modern desktop and mobile browsers. It
+provides seeded biome terrain, chunk streaming, first-person movement, block collision, breaking and placement, a
+seven-slot hotbar, and automatic local world persistence. Its procedural artwork and source code do not use
+Minecraft or Mojang assets.
 
 ## Features
 
-- Deterministic hills, stone layers, sandy lowlands, and cross-chunk trees
+- Deterministic biome surfaces, stone families, bedrock, depth-aware ores, and cross-chunk trees
 - Chunked 16 × 64 × 16 world storage with a five-by-five active render area
 - Exposed-face mesh generation to avoid rendering hidden cube surfaces
 - Original runtime-generated pixel textures packed into one texture atlas
 - Pointer-lock first-person controls with gravity, jumping, sprinting, and voxel collision
+- Multi-touch movement, camera, breaking, placement, jumping, sprinting, and persistent joystick settings
 - Grid-accurate block targeting with a visible selection outline
 - Grass, dirt, stone, sand, wood, leaves, and cobblestone placement
 - Sparse browser storage that saves only the seed and player edits
-- Responsive pause menu, crosshair, selected-block label, and keyboard-accessible hotbar
+- Responsive pause menu, fullscreen control, crosshair, selected-block label, and tappable hotbar
 
 ## Requirements
 
 - Node.js 22.12 or newer
 - npm included with Node.js
-- A current desktop browser with WebGL and Pointer Lock API support
+- A current browser with WebGL and either Pointer Lock or Pointer Events support
 
 No global packages are required. Dependencies are pinned in `package.json` for repeatable installation.
 
@@ -47,8 +49,17 @@ Start Vite's local development server:
 npm run dev
 ```
 
-Vite prints a local address, normally `http://localhost:5173`. Open that address in a desktop browser, select
-**Enter world**, and allow pointer capture if the browser asks.
+Vite prints a local address, normally `http://localhost:5173`. Open that address in a browser, select **Enter world**,
+and allow pointer capture if the desktop browser asks.
+
+To test on a phone connected to the same trusted local network, expose the development server deliberately:
+
+```bash
+npm run dev -- --host 0.0.0.0
+```
+
+Open the network address printed by Vite on the phone. Stop the server when testing is complete so it is not left
+available to other devices on the network.
 
 To stop the development server, return to the terminal and press `Ctrl+C`.
 
@@ -131,7 +142,7 @@ run is canceled so it cannot overwrite the newer site.
   sets `base` to `"./"`.
 - If a deployment is waiting, inspect the `github-pages` environment for approval or branch-protection requirements.
 
-## Controls
+## Desktop controls
 
 | Action | Control |
 | --- | --- |
@@ -147,6 +158,26 @@ run is canceled so it cannot overwrite the newer site.
 
 Block placement is rejected when the new block would intersect the player's body. Blocks can be edited up to six
 cells from the camera.
+
+## Mobile controls
+
+Touch-oriented devices are detected through pointer capabilities rather than user-agent strings.
+
+| Action | Control |
+| --- | --- |
+| Look | Drag the right side of the viewport |
+| Move | Left joystick |
+| Jump | Hold **Jump** |
+| Sprint | Hold **Sprint** while moving |
+| Break selected block | Quickly tap the right-side look area |
+| Place selected material | Tap **Place** |
+| Select hotbar slot | Tap a hotbar block |
+| Enter or exit fullscreen | Top-right corner icon |
+| Adjust joystick | Settings icon above the joystick |
+
+The settings panel changes thumbstick size, horizontal placement, and vertical placement with a live preview. Valid
+settings are saved under `voxel-frontier.mobile-controls.v1`. The reset control restores the documented defaults.
+Fullscreen uses the browser's standard Fullscreen API and remains disabled when that browser does not expose it.
 
 ## Saved worlds
 
@@ -169,10 +200,11 @@ disable persistence; the game continues in memory and displays a warning when sa
     ├── interaction/      Voxel targeting, selection highlighting, breaking, and placement
     ├── player/           Browser input, first-person movement, and collision resolution
     ├── storage/          Validated sparse local-storage persistence
-    ├── ui/               DOM hotbar and pause-state presentation
-    ├── world/            Noise, generation, chunks, meshing, streaming, and block edits
+    ├── ui/               DOM hotbar, pause state, mobile input, settings, and fullscreen presentation
+    ├── world/            Noise, biomes, geology, chunks, meshing, streaming, and block edits
     ├── main.ts           Browser entry point and safe startup error boundary
-    └── styles.css        Full-screen game and interface styling
+    ├── styles.css        Desktop game and interface styling
+    └── mobile-controls.css  Touch-control and mobile-settings styling
 ```
 
 The render loop in `src/game/game.ts` updates chunk availability before player physics, processes selection and world
@@ -195,6 +227,17 @@ reload the page. The browser developer console contains a concise initialization
 Pointer lock requires a direct user gesture and can be blocked by browser or embedded-frame policy. Open the game in
 its own tab, click **Enter world** again, and confirm the site is allowed to capture the pointer.
 
+### Mobile controls do not respond
+
+Open the game directly rather than inside an embedded preview, tap **Enter world**, and make sure browser zoom or
+page gestures are not being forced by an accessibility extension. Reload after rotating if the browser has retained
+an outdated viewport. The joystick and action controls support independent simultaneous fingers.
+
+### Fullscreen is disabled on mobile
+
+The browser does not expose standard page fullscreen for this device or context. The game remains fully playable in
+the browser viewport; fullscreen cannot be forced when the browser disables that capability.
+
 ### World changes do not survive a reload
 
 Allow site storage, leave private browsing, and make sure the same hostname and port are used after reload. A warning
@@ -208,5 +251,5 @@ device pixel density and the source keeps a bounded five-by-five chunk area load
 ## Current scope
 
 Voxel Frontier is a complete creative sandbox release, not a byte-for-byte recreation of Minecraft. Crafting,
-survival health, mobs, water simulation, multiplayer, accounts, and copied proprietary content are intentionally
-outside this release.
+survival health, mobs, vegetation expansion, structures, water and lava simulation, Nether and End terrain,
+multiplayer, accounts, and copied proprietary content are intentionally outside this release.

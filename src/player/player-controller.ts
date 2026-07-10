@@ -48,19 +48,19 @@ export class PlayerController {
     this.camera.rotation.z = 0;
   }
 
-  /** Converts keyboard intent into horizontal world velocity aligned with current view yaw. */
+  /** Converts device-independent movement intent into horizontal world velocity aligned with current view yaw. */
   private updateHorizontalVelocity(input: InputController): void {
-    const forwardInput = Number(input.isKeyPressed("KeyW")) - Number(input.isKeyPressed("KeyS"));
-    const rightInput = Number(input.isKeyPressed("KeyD")) - Number(input.isKeyPressed("KeyA"));
+    const movement = input.getMovementInput();
+    const forwardInput = movement.forward;
+    const rightInput = movement.right;
     const inputLength = Math.hypot(forwardInput, rightInput);
     if (inputLength === 0) {
       this.velocity.x = 0;
       this.velocity.z = 0;
       return;
     }
-    const speed = input.isKeyPressed("ShiftLeft") || input.isKeyPressed("ShiftRight")
-      ? SPRINT_SPEED
-      : WALK_SPEED;
+    const speed = input.isSprintPressed() ? SPRINT_SPEED : WALK_SPEED;
+    const inputMagnitude = Math.min(1, inputLength);
     const normalizedForward = forwardInput / inputLength;
     const normalizedRight = rightInput / inputLength;
 
@@ -69,8 +69,8 @@ export class PlayerController {
     const forwardZ = -Math.cos(this.yaw);
     const rightX = Math.cos(this.yaw);
     const rightZ = -Math.sin(this.yaw);
-    this.velocity.x = (forwardX * normalizedForward + rightX * normalizedRight) * speed;
-    this.velocity.z = (forwardZ * normalizedForward + rightZ * normalizedRight) * speed;
+    this.velocity.x = (forwardX * normalizedForward + rightX * normalizedRight) * speed * inputMagnitude;
+    this.velocity.z = (forwardZ * normalizedForward + rightZ * normalizedRight) * speed * inputMagnitude;
   }
 
   /** Advances view and physics by one active gameplay frame. */
@@ -81,7 +81,7 @@ export class PlayerController {
     this.updateHorizontalVelocity(input);
 
     // Jumping consumes grounded state immediately so holding Space cannot create repeated midair impulses.
-    if (this.grounded && input.isKeyPressed("Space")) {
+    if (this.grounded && input.isJumpPressed()) {
       this.velocity.y = JUMP_SPEED;
       this.grounded = false;
     }
