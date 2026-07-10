@@ -291,3 +291,104 @@ operations were not run because project instructions reserve them for Xander.
 **Files affected:** index.html, README.md, src/storage/mobile-settings-storage.ts,
 src/ui/mobile-controls-settings.ts, src/ui/mobile-controls.ts, src/mobile-controls.css,
 .claude/learned-history-terrain-mobile-controls.md, .claude/bugfix-terrain-mobile-controls.md
+
+## 2026-07-10 11:30 — SUCCESS
+
+**Phase/Action:** Trace settings gestures and continuous camera input  
+**Details:** Traced settings touch-action negotiation, modal event routing, saved preference migration, pointer
+capture, look-delta consumption, player frame duration, and portrait and landscape action placement.  
+**Files affected:** index.html, src/storage/mobile-settings-storage.ts, src/ui/mobile-controls-settings.ts,
+src/ui/mobile-controls.ts, src/player/input-controller.ts, src/player/player-controller.ts,
+src/mobile-controls.css, src/styles.css
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Add camera-stick markup and settings  
+**Details:** Added the right camera thumbstick, its persisted enable switch, and a camera-strength range through 600%.  
+**Files affected:** index.html
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Extend compatible mobile preference storage  
+**Details:** Raised the validated camera-strength ceiling and migrated an absent camera-stick flag to disabled.  
+**Files affected:** src/storage/mobile-settings-storage.ts
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Add backdrop dismissal and camera-stick preference control  
+**Details:** Added exact-target backdrop closure, shared focus restoration, toggle persistence, and root layout state.  
+**Files affected:** src/ui/mobile-controls-settings.ts
+
+## 2026-07-10 11:30 — FILE_CREATED
+
+**Phase/Action:** Create reusable multi-pointer thumbstick input  
+**Details:** Added complete pointer ownership, circular clamping, normalized vectors, knob feedback, and state reset.  
+**Files affected:** src/ui/mobile-thumbstick.ts
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Integrate dual mobile thumbsticks  
+**Details:** Replaced duplicated movement-stick internals with the reusable controller and combined optional continuous
+camera-stick input with existing swipe input using the same live strength setting.  
+**Files affected:** src/ui/mobile-controls.ts
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Route frame duration through unified look consumption  
+**Details:** Passed active frame duration through the input boundary so held camera-stick speed is frame-independent.  
+**Files affected:** src/player/input-controller.ts, src/player/player-controller.ts
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Make the settings modal scroll-safe  
+**Details:** Prioritized vertical panning across sliders, contained overscroll, and styled the camera-stick toggle.  
+**Files affected:** src/mobile-controls.css
+
+## 2026-07-10 11:30 — FILE_CREATED
+
+**Phase/Action:** Create isolated mobile gamepad layout  
+**Details:** Moved movement and action geometry into a focused stylesheet and added the camera stick with comfortable
+portrait and short-landscape action reflow.  
+**Files affected:** src/mobile-gamepad.css
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Load the mobile gamepad presentation  
+**Details:** Imported the isolated thumbstick and action-layout stylesheet after the mobile settings stylesheet.  
+**Files affected:** src/styles.css
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Document expanded mobile camera controls  
+**Details:** Documented 600% strength, optional camera stick, scroll-safe sliders, backdrop closure, migration, and
+the isolated gamepad stylesheet.  
+**Files affected:** README.md
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Persist mobile camera-control contracts  
+**Details:** Recorded reusable thumbstick, frame-time, touch-action, migration, backdrop, and layout rules.  
+**Files affected:** .claude/learned-history-terrain-mobile-controls.md
+
+## 2026-07-10 11:30 — FILE_MODIFIED
+
+**Phase/Action:** Record confirmed mobile settings fixes  
+**Details:** Recorded the slider-scroll and missing-backdrop-dismissal defects with exact fixes and verification.  
+**Files affected:** .claude/bugfix-terrain-mobile-controls.md
+
+## 2026-07-10 11:30 — SUCCESS
+
+**Phase/Action:** Final static review — scroll-safe settings and camera thumbstick  
+**Details:** Confirmed the 600% HTML ceiling matches storage validation, old v1 snapshots receive only the missing
+disabled camera-stick default, every new element ID resolves, backdrop dismissal excludes card descendants, and
+vertical slider gestures remain available to the modal scroll container. Confirmed both thumbsticks use independent
+pointer ownership, continuous camera input is frame-rate-independent and stall-clamped, swipe remains available, and
+actions reflow around the camera stick in portrait and short landscape layouts. All changed source and stylesheets
+remain below 400 lines, all changed lines are within 120 characters, and no placeholders or task markers were added.
+Builds, tests, servers, dependency installation, and Git operations were not run because project instructions reserve
+them for Xander.  
+**Files affected:** index.html, README.md, src/storage/mobile-settings-storage.ts,
+src/ui/mobile-controls-settings.ts, src/ui/mobile-controls.ts, src/ui/mobile-thumbstick.ts,
+src/player/input-controller.ts, src/player/player-controller.ts, src/mobile-controls.css,
+src/mobile-gamepad.css, src/styles.css, .claude/learned-history-terrain-mobile-controls.md,
+.claude/bugfix-terrain-mobile-controls.md

@@ -21,3 +21,23 @@ full 78px hotbar clearance above the safe area.
 **Files changed:** index.html, src/storage/mobile-settings-storage.ts, src/mobile-controls.css  
 **Verification:** Static boundary inspection confirmed matching HTML and TypeScript minima and a CSS lower bound that
 keeps the joystick edge 12px above `env(safe-area-inset-bottom)`.
+
+## 2026-07-10 11:30 — BUG_FIXED
+
+**Bug:** Vertical scrolling across a mobile settings slider could unintentionally change its value.  
+**Root cause:** Range inputs declared `touch-action: pan-x`, preventing the settings card from claiming the user's
+vertical gesture when it began over a slider.  
+**Fix applied:** Changed range inputs and the modal overlay to `touch-action: pan-y` and contained card overscroll, so
+vertical gestures scroll while deliberate horizontal gestures remain slider input.  
+**Files changed:** src/mobile-controls.css  
+**Verification:** Static touch-action inspection confirmed the scroll container and every range input allow vertical
+panning, while gameplay thumbsticks retain `touch-action: none` in their isolated stylesheet.
+
+## 2026-07-10 11:30 — BUG_FIXED
+
+**Bug:** Tapping the dimmed area around the mobile settings card did not close the modal.  
+**Root cause:** Only the explicit close button owned a dismissal listener; the full-screen settings panel had none.  
+**Fix applied:** Added backdrop pointer dismissal guarded by exact event-target identity, preserving all card input and
+restoring focus to the settings button after closure.  
+**Files changed:** src/ui/mobile-controls-settings.ts  
+**Verification:** Static event routing confirmed only direct panel-background pointers call the shared close path.

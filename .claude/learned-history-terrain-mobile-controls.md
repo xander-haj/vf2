@@ -44,3 +44,16 @@
 - Vertical placement can reach the device safe area because CSS clamps the joystick center by its radius plus 12px,
   rather than reserving the unrelated 78px hotbar height beneath the entire control.
 - Mobile action controls use explicit equal width and height constraints so labels and grid spans cannot create ovals.
+
+## Camera Thumbstick and Scroll-Safe Settings
+
+- One reusable `MobileThumbstick` owns normalized circular pointer input for both movement and camera controls.
+- Camera thumbstick displacement becomes a pixels-per-second look contribution multiplied by clamped frame duration;
+  swipe pixels remain unscaled by frame time.
+- The persisted camera-thumbstick flag defaults to false only when absent, preserving old v1 settings without treating
+  explicit invalid values as migrations.
+- Native range inputs use `touch-action: pan-y` inside the scrollable settings card so vertical gestures scroll the
+  modal, while deliberate horizontal gestures adjust values.
+- Backdrop dismissal checks `event.target` against the full-screen settings panel, so pointer input inside the card
+  never closes it.
+- Camera-stick mode places actions above the stick in portrait and to its left in short landscape layouts.

@@ -85,14 +85,14 @@ export class PlayerController {
   public update(deltaSeconds: number, input: InputController, world: World): void {
     this.hurtCooldownSeconds = Math.max(0, this.hurtCooldownSeconds - deltaSeconds);
     if (!this.isAlive()) {
-      input.consumeMouseDelta();
+      input.consumeMouseDelta(deltaSeconds);
       this.respawnSeconds = Math.max(0, this.respawnSeconds - deltaSeconds);
       if (this.respawnSeconds === 0) {
         this.respawn();
       }
       return;
     }
-    const mouse = input.consumeMouseDelta();
+    const mouse = input.consumeMouseDelta(deltaSeconds);
     this.yaw -= mouse.x * LOOK_SENSITIVITY;
     this.pitch = MathUtils.clamp(this.pitch - mouse.y * LOOK_SENSITIVITY, -MAX_PITCH, MAX_PITCH);
     this.updateHorizontalVelocity(input);

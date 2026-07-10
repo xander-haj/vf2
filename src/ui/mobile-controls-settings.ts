@@ -50,6 +50,7 @@ export class MobileControlsSettings {
   private readonly cameraStrengthInput = requireElement<HTMLInputElement>("camera-swipe-strength-setting");
   private readonly joystickStrengthOutput = requireElement<HTMLOutputElement>("joystick-strength-value");
   private readonly cameraStrengthOutput = requireElement<HTMLOutputElement>("camera-swipe-strength-value");
+  private readonly cameraThumbstickInput = requireElement<HTMLInputElement>("camera-thumbstick-setting");
   private currentSettings = DEFAULT_MOBILE_CONTROL_SETTINGS;
 
   public constructor(
@@ -68,12 +69,14 @@ export class MobileControlsSettings {
     document.addEventListener("fullscreenchange", this.handleFullscreenChange, { signal });
     this.settingsButton.addEventListener("click", this.openSettings, { signal });
     this.settingsClose.addEventListener("click", this.closeSettings, { signal });
+    this.settingsPanel.addEventListener("pointerdown", this.closeFromBackdrop, { signal });
     this.settingsReset.addEventListener("click", this.resetSettings, { signal });
     this.sizeInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.horizontalInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.verticalInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.joystickStrengthInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
     this.cameraStrengthInput.addEventListener("input", this.updateSettingsFromInputs, { signal });
+    this.cameraThumbstickInput.addEventListener("change", this.updateSettingsFromInputs, { signal });
   }
 
   /** Opens the panel after asking gameplay input to release every captured control. */
@@ -90,10 +93,25 @@ export class MobileControlsSettings {
   private readonly closeSettings = (event: MouseEvent): void => {
     event.preventDefault();
     event.stopPropagation();
+    this.hideSettings();
+  };
+
+  /** Closes the sheet only when the pointer lands on the dimmed backdrop rather than the settings card. */
+  private readonly closeFromBackdrop = (event: PointerEvent): void => {
+    if (event.target !== this.settingsPanel) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    this.hideSettings();
+  };
+
+  /** Hides the settings sheet and restores focus to its opening control for accessible navigation. */
+  private hideSettings(): void {
     this.settingsPanel.classList.remove("visible");
     this.settingsPanel.setAttribute("aria-hidden", "true");
     this.settingsButton.focus();
-  };
+  }
 
   /** Restores documented defaults, persists them, and updates the live joystick immediately. */
   private readonly resetSettings = (event: MouseEvent): void => {
@@ -122,6 +140,7 @@ export class MobileControlsSettings {
         MIN_CAMERA_SWIPE_STRENGTH,
         MAX_CAMERA_SWIPE_STRENGTH,
       ),
+      cameraThumbstickEnabled: this.cameraThumbstickInput.checked,
     };
     this.applySettings(settings, true);
   };
@@ -135,10 +154,12 @@ export class MobileControlsSettings {
     this.cameraStrengthInput.value = String(settings.cameraSwipeStrength);
     this.joystickStrengthOutput.value = `${Math.round(settings.joystickStrength * 100)}%`;
     this.cameraStrengthOutput.value = `${Math.round(settings.cameraSwipeStrength * 100)}%`;
+    this.cameraThumbstickInput.checked = settings.cameraThumbstickEnabled;
     this.currentSettings = settings;
     this.root.style.setProperty("--joystick-size", `${settings.joystickSize}px`);
     this.root.style.setProperty("--joystick-left", `${settings.horizontalRatio * 100}vw`);
     this.root.style.setProperty("--joystick-bottom", `${settings.verticalRatio * 100}vh`);
+    this.root.classList.toggle("camera-thumbstick-enabled", settings.cameraThumbstickEnabled);
     if (persist) {
       this.settingsStatus.textContent = saveMobileControlSettings(settings)
         ? "Settings saved on this device."
@@ -152,8 +173,13 @@ export class MobileControlsSettings {
   }
 
   /** Returns the live touch-camera multiplier while desktop mouse response remains unchanged. */
-  public getCameraSwipeStrength(): number {
+  public getCameraStrength(): number {
     return this.currentSettings.cameraSwipeStrength;
+  }
+
+  /** Reports whether the optional right camera thumbstick should provide continuous look input. */
+  public isCameraThumbstickEnabled(): boolean {
+    return this.currentSettings.cameraThumbstickEnabled;
   }
 
   /** Disables fullscreen interaction when the browser does not expose the standard capability. */

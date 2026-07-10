@@ -4,6 +4,7 @@
  */
 
 @import "./mobile-controls.css";
+@import "./mobile-gamepad.css";
 
 :root {
   color: #f4f7f8;

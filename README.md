@@ -204,6 +204,7 @@ Touch-oriented devices are detected through pointer capabilities rather than use
 | Action | Control |
 | --- | --- |
 | Look | Drag the right side of the viewport |
+| Optional camera stick | Enable **Camera thumbstick** in touch settings |
 | Move | Left joystick |
 | Jump | Hold **Jump** |
 | Sprint | Hold **Sprint** while moving |
@@ -214,10 +215,13 @@ Touch-oriented devices are detected through pointer capabilities rather than use
 | Adjust joystick | Settings icon above the joystick |
 
 The settings panel changes thumbstick size, horizontal placement, vertical placement, joystick strength, and camera
-swipe strength with a live preview. Lower vertical placement can move the joystick close to the device safe area
-without clipping it. Valid settings are saved under `voxel-frontier.mobile-controls.v1`; older v1 preferences retain
-their saved placement and receive neutral strength defaults. The reset control restores the documented defaults.
-Fullscreen uses the browser's standard Fullscreen API and remains disabled when that browser does not expose it.
+strength up to 600% with a live preview. Camera strength applies to both right-side swipes and the optional right
+camera thumbstick. Vertical scrolling takes priority over sliders when a gesture begins across them, and tapping the
+dimmed area outside the settings card closes it. Lower vertical placement can move the joystick close to the device
+safe area without clipping it. Valid settings are saved under `voxel-frontier.mobile-controls.v1`; older v1
+preferences retain their saved placement and receive neutral strength and disabled camera-stick defaults. The reset
+control restores the documented defaults. Fullscreen uses the browser's standard Fullscreen API and remains disabled
+when that browser does not expose it.
 
 ## Saved worlds
 
@@ -260,7 +264,8 @@ disable persistence; the game continues in memory and displays a warning when sa
     ├── world/            Profiles, noise, generation, sectioned chunks, meshing, streaming, and edits
     ├── main.ts           Browser entry point and safe startup error boundary
     ├── styles.css        Desktop game and interface styling
-    └── mobile-controls.css  Touch-control and mobile-settings styling
+    ├── mobile-controls.css  Touch settings, overlay, and fullscreen styling
+    └── mobile-gamepad.css  Movement stick, camera stick, and action-button layout
 ```
 
 The render loop in `src/game/game.ts` updates chunk availability, player physics, bounded entity AI, combat,

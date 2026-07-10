@@ -4,6 +4,10 @@
  */
 
 import { MobileControlsSettings } from "./mobile-controls-settings";
+import { MobileThumbstick } from "./mobile-thumbstick";
+
+// Full camera-stick travel produces a comfortable base turn speed before the user strength multiplier is applied.
+const CAMERA_THUMBSTICK_PIXELS_PER_SECOND = 900;
 
 /** MobileMovement represents analog view-relative intent in the inclusive range from minus one to one. */
 export interface MobileMovement {
@@ -26,11 +30,6 @@ function requireElement<T extends HTMLElement>(id: string): T {
   return element as T;
 }
 
-/** Clamps a normalized joystick coordinate to its allowed movement range. */
-function clamp(value: number, minimum: number, maximum: number): number {
-  return Math.max(minimum, Math.min(maximum, value));
-}
-
 /** Detects a touch-oriented layout without brittle user-agent matching. */
 function detectTouchLayout(): boolean {
   const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
@@ -42,21 +41,28 @@ function detectTouchLayout(): boolean {
 export class MobileControls {
   private readonly events = new AbortController();
   private readonly root = requireElement<HTMLElement>("mobile-controls");
-  private readonly joystick = requireElement<HTMLElement>("mobile-joystick");
-  private readonly joystickKnob = requireElement<HTMLElement>("mobile-joystick-knob");
   private readonly lookZone = requireElement<HTMLElement>("mobile-look-zone");
   private readonly jumpButton = requireElement<HTMLButtonElement>("mobile-jump-button");
   private readonly placeButton = requireElement<HTMLButtonElement>("mobile-place-button");
   private readonly sprintButton = requireElement<HTMLButtonElement>("mobile-sprint-button");
   private readonly enabled = detectTouchLayout();
   private readonly settings = new MobileControlsSettings(this.root, () => this.clearTransientState());
+  private readonly movementThumbstick = new MobileThumbstick(
+    "mobile-joystick",
+    "mobile-joystick-knob",
+    () => this.active,
+    this.events.signal,
+  );
+  private readonly cameraThumbstick = new MobileThumbstick(
+    "mobile-camera-joystick",
+    "mobile-camera-joystick-knob",
+    () => this.active && this.settings.isCameraThumbstickEnabled(),
+    this.events.signal,
+  );
   private active = false;
-  private joystickPointerId: number | null = null;
   private lookPointerId: number | null = null;
   private jumpPointerId: number | null = null;
   private sprintPointerId: number | null = null;
-  private joystickForward = 0;
-  private joystickRight = 0;
   private lookX = 0;
   private lookY = 0;
   private lookLastX = 0;
@@ -76,10 +82,6 @@ export class MobileControls {
   /** Registers all Pointer Event and button listeners under one abortable lifetime. */
   private attachListeners(): void {
     const signal = this.events.signal;
-    this.joystick.addEventListener("pointerdown", this.handleJoystickDown, { signal });
-    this.joystick.addEventListener("pointermove", this.handleJoystickMove, { signal });
-    this.joystick.addEventListener("pointerup", this.handleJoystickEnd, { signal });
-    this.joystick.addEventListener("pointercancel", this.handleJoystickEnd, { signal });
     this.lookZone.addEventListener("pointerdown", this.handleLookDown, { signal });
     this.lookZone.addEventListener("pointermove", this.handleLookMove, { signal });
     this.lookZone.addEventListener("pointerup", this.handleLookEnd, { signal });
@@ -92,50 +94,6 @@ export class MobileControls {
     this.sprintButton.addEventListener("pointercancel", this.handleSprintEnd, { signal });
     this.placeButton.addEventListener("pointerdown", this.handlePlace, { signal });
     window.addEventListener("blur", this.handleWindowBlur, { signal });
-  }
-
-  /** Captures the movement finger so the joystick remains responsive beyond its circular boundary. */
-  private readonly handleJoystickDown = (event: PointerEvent): void => {
-    if (!this.active || this.joystickPointerId !== null) return;
-    event.preventDefault();
-    event.stopPropagation();
-    this.joystickPointerId = event.pointerId;
-    this.joystick.setPointerCapture(event.pointerId);
-    this.updateJoystick(event);
-  };
-
-  /** Recomputes analog movement only for the finger that owns the joystick. */
-  private readonly handleJoystickMove = (event: PointerEvent): void => {
-    if (event.pointerId !== this.joystickPointerId) return;
-    event.preventDefault();
-    this.updateJoystick(event);
-  };
-
-  /** Releases joystick ownership and returns movement to neutral on lift or cancellation. */
-  private readonly handleJoystickEnd = (event: PointerEvent): void => {
-    if (event.pointerId !== this.joystickPointerId) return;
-    event.preventDefault();
-    this.joystickPointerId = null;
-    this.joystickForward = 0;
-    this.joystickRight = 0;
-    this.joystickKnob.style.transform = "translate(-50%, -50%)";
-  };
-
-  /** Converts a pointer coordinate into a circularly clamped joystick vector and visual knob offset. */
-  private updateJoystick(event: PointerEvent): void {
-    const bounds = this.joystick.getBoundingClientRect();
-    const radius = bounds.width / 2;
-    const knobRadius = this.joystickKnob.getBoundingClientRect().width / 2;
-    const maximumDistance = Math.max(1, radius - knobRadius * 0.6);
-    const rawX = event.clientX - (bounds.left + radius);
-    const rawY = event.clientY - (bounds.top + radius);
-    const distance = Math.hypot(rawX, rawY);
-    const scale = distance > maximumDistance ? maximumDistance / distance : 1;
-    const offsetX = rawX * scale;
-    const offsetY = rawY * scale;
-    this.joystickRight = clamp(offsetX / maximumDistance, -1, 1);
-    this.joystickForward = clamp(-offsetY / maximumDistance, -1, 1);
-    this.joystickKnob.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
   }
 
   /** Starts one camera gesture and records its origin so a stationary quick tap can break a block. */
@@ -250,7 +208,8 @@ export class MobileControls {
   /** Returns held movement scaled by the live joystick response setting and clamped to valid axes. */
   public getMovement(): MobileMovement {
     const strength = this.settings.getJoystickStrength();
-    const magnitude = Math.hypot(this.joystickForward, this.joystickRight);
+    const movement = this.movementThumbstick.getVector();
+    const magnitude = Math.hypot(movement.forward, movement.right);
     // A neutral stick cannot be normalized, and should remain exactly neutral regardless of strength.
     if (magnitude === 0) {
       return { forward: 0, right: 0 };
@@ -259,8 +218,8 @@ export class MobileControls {
     const scaledMagnitude = Math.min(1, magnitude * strength);
     const scale = scaledMagnitude / magnitude;
     return {
-      forward: this.joystickForward * scale,
-      right: this.joystickRight * scale,
+      forward: movement.forward * scale,
+      right: movement.right * scale,
     };
   }
 
@@ -274,10 +233,23 @@ export class MobileControls {
     return this.sprintPointerId !== null;
   }
 
-  /** Returns camera movement scaled by the live swipe response setting, then resets the accumulator. */
-  public consumeLookDelta(): MobileLookDelta {
-    const strength = this.settings.getCameraSwipeStrength();
-    const delta = { x: this.lookX * strength, y: this.lookY * strength };
+  /**
+   * Combines swipe and frame-rate-independent camera-stick motion for one frame, then consumes swipe movement.
+   * The deltaSeconds parameter is clamped after long stalls so a held stick cannot cause a disorienting jump.
+   */
+  public consumeLookDelta(deltaSeconds: number): MobileLookDelta {
+    const strength = this.settings.getCameraStrength();
+    const camera = this.settings.isCameraThumbstickEnabled()
+      ? this.cameraThumbstick.getVector()
+      : { forward: 0, right: 0 };
+    const frameSeconds = Number.isFinite(deltaSeconds)
+      ? Math.max(0, Math.min(0.1, deltaSeconds))
+      : 0;
+    const continuousDistance = CAMERA_THUMBSTICK_PIXELS_PER_SECOND * frameSeconds;
+    const delta = {
+      x: (this.lookX + camera.right * continuousDistance) * strength,
+      y: (this.lookY - camera.forward * continuousDistance) * strength,
+    };
     this.lookX = 0;
     this.lookY = 0;
     return delta;
@@ -299,17 +271,15 @@ export class MobileControls {
 
   /** Clears every held and queued touch state at pause, focus loss, or settings entry. */
   public clearTransientState(): void {
-    this.joystickPointerId = null;
+    this.movementThumbstick.clear();
+    this.cameraThumbstick.clear();
     this.lookPointerId = null;
     this.jumpPointerId = null;
     this.sprintPointerId = null;
-    this.joystickForward = 0;
-    this.joystickRight = 0;
     this.lookX = 0;
     this.lookY = 0;
     this.primaryQueued = false;
     this.secondaryQueued = false;
-    this.joystickKnob.style.transform = "translate(-50%, -50%)";
     this.jumpButton.classList.remove("pressed");
     this.sprintButton.classList.remove("pressed");
   }

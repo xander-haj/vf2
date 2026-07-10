@@ -202,9 +202,9 @@ export class InputController {
     );
   }
 
-  /** Returns and resets accumulated pointer movement for one simulation frame. */
-  public consumeMouseDelta(): MouseDelta {
-    const mobileDelta = this.mobile.consumeLookDelta();
+  /** Returns and resets pointer movement while giving held mobile camera input the current frame duration. */
+  public consumeMouseDelta(deltaSeconds: number): MouseDelta {
+    const mobileDelta = this.mobile.consumeLookDelta(deltaSeconds);
     const delta = {
       x: this.mouseX + mobileDelta.x * TOUCH_LOOK_MULTIPLIER,
       y: this.mouseY + mobileDelta.y * TOUCH_LOOK_MULTIPLIER,

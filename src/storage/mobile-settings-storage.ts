@@ -22,9 +22,9 @@ export const MAX_VERTICAL_RATIO = 0.58;
 export const MIN_JOYSTICK_STRENGTH = 0.4;
 export const MAX_JOYSTICK_STRENGTH = 1.6;
 
-// Swipe strength scales touch camera motion without altering desktop mouse sensitivity.
+// Camera strength scales both touch look modes without altering desktop mouse sensitivity.
 export const MIN_CAMERA_SWIPE_STRENGTH = 0.4;
-export const MAX_CAMERA_SWIPE_STRENGTH = 2;
+export const MAX_CAMERA_SWIPE_STRENGTH = 6;
 
 /** MobileControlSettings stores viewport-relative placement so rotation and resizing remain stable. */
 export interface MobileControlSettings {
@@ -33,6 +33,7 @@ export interface MobileControlSettings {
   readonly verticalRatio: number;
   readonly joystickStrength: number;
   readonly cameraSwipeStrength: number;
+  readonly cameraThumbstickEnabled: boolean;
 }
 
 // Defaults place a medium control comfortably above the hotbar near the lower-left thumb position.
@@ -42,6 +43,7 @@ export const DEFAULT_MOBILE_CONTROL_SETTINGS: MobileControlSettings = {
   verticalRatio: 0.28,
   joystickStrength: 1,
   cameraSwipeStrength: 1,
+  cameraThumbstickEnabled: false,
 };
 
 /** Reports whether an unknown value is a finite number inside an inclusive preference boundary. */
@@ -80,11 +82,19 @@ function parseMobileControlSettings(value: unknown): MobileControlSettings | nul
     candidate.cameraSwipeStrength === undefined
       ? DEFAULT_MOBILE_CONTROL_SETTINGS.cameraSwipeStrength
       : candidate.cameraSwipeStrength;
+  const cameraThumbstickEnabled =
+    candidate.cameraThumbstickEnabled === undefined
+      ? DEFAULT_MOBILE_CONTROL_SETTINGS.cameraThumbstickEnabled
+      : candidate.cameraThumbstickEnabled;
   const validStrength =
     isBoundedNumber(joystickStrength, MIN_JOYSTICK_STRENGTH, MAX_JOYSTICK_STRENGTH) &&
     isBoundedNumber(cameraSwipeStrength, MIN_CAMERA_SWIPE_STRENGTH, MAX_CAMERA_SWIPE_STRENGTH);
   // Explicit but out-of-range response values indicate corrupt or modified storage.
   if (!validStrength) {
+    return null;
+  }
+  // Legacy snapshots omit the mode flag, while explicit non-Boolean values indicate invalid storage.
+  if (typeof cameraThumbstickEnabled !== "boolean") {
     return null;
   }
   return {
@@ -93,6 +103,7 @@ function parseMobileControlSettings(value: unknown): MobileControlSettings | nul
     verticalRatio,
     joystickStrength,
     cameraSwipeStrength,
+    cameraThumbstickEnabled,
   };
 }
 
