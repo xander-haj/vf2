@@ -7,7 +7,7 @@ Minecraft or Mojang assets.
 
 ## Features
 
-- Versioned 128-block engine-v2 worlds with climate biomes, density terrain, caves, aquifers, and structures
+- Versioned 128-block engine-v2 worlds with climate biomes, density terrain, caves, aquifers
 - Five editable ore shapes, cross-chunk decorations, per-feature salts, and deterministic pass explanations
 - Chunked worlds split into independently meshed 16-block-high vertical sections
 - Exposed-face mesh generation that remeshes only sections affected by block edits
